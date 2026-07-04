@@ -154,7 +154,7 @@ export const ENTITIES: Record<string, EntityDetail> = {
     type: "a foaf:Person · :ProductEngineer",
     title: { ja: "藤井 貴浩", en: "Takahiro Fujii" },
     desc: {
-      ja: "プロダクトエンジニア、デザイナー、CTO。設計と実装、組織とロードマップ。すべての辺はこのノードから始まります。",
+      ja: "プロダクトエンジニア、デザイナー、CTO。肩書きは増えましたが、やっているのは設計と実装、組織とロードマップの行き来です。このグラフの辺は、すべてここから伸びています。",
       en: "Product engineer, designer, CTO. Architecture and implementation, organizations and roadmaps. Every edge starts here.",
     },
     meta: [
@@ -169,7 +169,7 @@ export const ENTITIES: Record<string, EntityDetail> = {
     type: "a :Organization",
     title: { ja: "WealthPark", en: "WealthPark" },
     desc: {
-      ja: "不動産×FinTech。2020年4月にVPoEとしてジョインし、SVPを経て2024年4月からCTO。プロダクト開発、PdM、SRE、セキュリティ、QA、PMOを含む多国籍エンジニアリング組織を構築。",
+      ja: "不動産×FinTech。2020年4月にVPoEとして入社し、SVPを経て2024年4月からCTOをしています。プロダクト開発だけでなく、PdM、SRE、セキュリティ、QA、PMOまで含む多国籍のエンジニアリング組織を作ってきました。",
       en: "Real estate × fintech. Joined April 2020 as VPoE, then SVP, CTO since April 2024. Built a multinational engineering org covering product, PdM, SRE, security, QA and PMO.",
     },
     meta: [
@@ -188,7 +188,7 @@ export const ENTITIES: Record<string, EntityDetail> = {
     type: "a :Organization",
     title: { ja: "楽天(楽天トラベル)", en: "Rakuten (Travel)" },
     desc: {
-      ja: "キャリアの起点。海外ホテル予約システム、管理画面、会計システム、外部連携の開発。20名超のフロントエンド組織でreactの大規模プロダクトをリード。",
+      ja: "キャリアの起点です。海外ホテルの予約システムから管理画面、会計、外部連携まで一通り作りました。20名を超えるフロントエンド組織で、reactの大規模プロダクトをリードしていた時期もあります。",
       en: "Where it started: booking systems, admin tools, accounting, integrations. Led a 20+ engineer React frontend at scale.",
     },
     meta: [
@@ -207,7 +207,7 @@ export const ENTITIES: Record<string, EntityDetail> = {
     type: "a :Organization · :School",
     title: { ja: "Designers Gym(Goodpatch)", en: "Designers Gym (Goodpatch)" },
     desc: {
-      ja: "デザインの体系的なトレーニング。エンジニアが「デザイナー」を名乗れるようになった場所のひとつ。",
+      ja: "2019年の半年間、デザインを基礎から習い直した場所です。エンジニアの自分がデザイナーを名乗る根拠のひとつになっています。",
       en: 'Formal design training — one of the places where an engineer earned the right to say "designer".',
     },
     meta: [
@@ -220,7 +220,7 @@ export const ENTITIES: Record<string, EntityDetail> = {
     type: "a :Organization · :College",
     title: { ja: "青山ファッションカレッジ", en: "Aoyama Fashion College" },
     desc: {
-      ja: "Web制作の講師(2023年度)。ファッションを学ぶ学生に、デザインとテクノロジーの交差点を教えました。",
+      ja: "2023年度、Web制作の講師をしました。ファッションを学ぶ学生にWebを教えるのは、エンジニアに教えるのとは全く別の面白さがありました。",
       en: "Taught web production (AY2023) — where design meets technology, for fashion students.",
     },
     meta: [
@@ -233,7 +233,7 @@ export const ENTITIES: Record<string, EntityDetail> = {
     type: "a :Artifact · :Podcast",
     title: { ja: "小粋fm(Koiki.fm)", en: "Koiki.fm" },
     desc: {
-      ja: "エンジニアリングマネージャーのためのポッドキャスト。キャリア、組織、マネジメントの機微を話す。ロゴも自作(→ :illustration)。",
+      ja: "2020年から続けているポッドキャストです。エンジニアリングマネージャーのキャリアや組織の話を、飾らずに話しています。ロゴは自作です(→ :illustration)。",
       en: "A podcast for engineering managers — careers, orgs, and the craft. Logo drawn by the host (→ :illustration).",
     },
     meta: [
@@ -248,7 +248,7 @@ export const ENTITIES: Record<string, EntityDetail> = {
     type: "a :Artifact · :TalkSeries",
     title: { ja: "講演・登壇", en: "Talks" },
     desc: {
-      ja: "カンファレンス、meetup、大学講義まで。組織、フロントエンド、アジャイル、キャリア。",
+      ja: "カンファレンスからmeetup、大学の講義まで。テーマは組織、フロントエンド、アジャイル、キャリアと幅広いですが、根は同じで、人がソフトウェアを作る話をしています。",
       en: "Conferences, meetups, university lectures — orgs, frontend, agile, careers.",
     },
     meta: [
@@ -273,7 +273,7 @@ export const ENTITIES: Record<string, EntityDetail> = {
     type: "a :Artifact · :SeminarSeries",
     title: { ja: "AIセミナー", en: "AI Seminars" },
     desc: {
-      ja: "「AIは難しくない」— 不動産事業者・ビジネス職向けのLLM入門。仕組み、使い方、セキュリティまで。",
+      ja: "不動産事業者やビジネス職向けのLLM入門セミナー。仕組み、使い方、セキュリティの順で話します。AIは難しくない、と言い続けるのが自分の役目だと思っています。",
       en: '"AI is not difficult" — LLM intros for real-estate operators and business teams: how it works, how to use it, how to keep it safe.',
     },
     meta: [
@@ -291,7 +291,7 @@ export const ENTITIES: Record<string, EntityDetail> = {
     type: "a :Artifact · :ReviewWork",
     title: { ja: "技術書 翻訳レビュー", en: "Book Translation Reviews" },
     desc: {
-      ja: "技術書の翻訳レビューに参加。読み手として最初に「日本語で読める」を検品する仕事。",
+      ja: "技術書の翻訳レビューに参加しています。訳文がちゃんと日本語として読めるかを、最初の読者として検品する役です。",
       en: "Reviewing Japanese translations of engineering books — the first reader who checks it truly reads.",
     },
     meta: [{ p: ":year", v: "2024" }],
@@ -305,7 +305,7 @@ export const ENTITIES: Record<string, EntityDetail> = {
     type: "a :Artifact · :Blog",
     title: { ja: "note", en: "note (blog)" },
     desc: {
-      ja: "キャリア、組織、本、そして「ご機嫌でいる技術」。文章での発信のアーカイブ。",
+      ja: "キャリアや組織の話から、ご機嫌でいる技術(という記事)まで。書いたものはだいたいここにあります。",
       en: 'Careers, orgs, books, and "the art of staying in a good mood". The written archive.',
     },
     meta: [{ p: ":url", v: "note.com/takahirofujii ↗", href: "https://note.com/takahirofujii" }],
@@ -323,7 +323,7 @@ export const ENTITIES: Record<string, EntityDetail> = {
     type: "a :Artifact · :DesignWork",
     title: { ja: "イラスト & デザインワーク", en: "Illustration & Design Works" },
     desc: {
-      ja: "自画像、あじさい、富士山。小粋fmのロゴ、Lineスタンプ、名刺、バスケットボールのユニフォームまで。描くことはデザインの目の筋トレ。",
+      ja: "自画像、あじさい、富士山。小粋fmのロゴやLineスタンプ、名刺、バスケのユニフォームも作りました。描き続けているのは、デザインの目が鈍らないようにするためです。",
       en: "Self-portraits, hydrangeas, Mt. Fuji. The Koiki.fm logo, Line stickers, business cards, basketball uniforms. Drawing keeps the design eye sharp.",
     },
     meta: [
@@ -354,7 +354,7 @@ export const ENTITIES: Record<string, EntityDetail> = {
     type: "a :Domain",
     title: { ja: "UI / UX", en: "UI / UX" },
     desc: {
-      ja: "2017年からの専門領域。エンジニアであり、デザイナーでもある理由。青山ファッションカレッジで教えたテーマ。",
+      ja: "2017年からの専門領域です。エンジニアとデザイナーを両方名乗る根拠はここにあります。青山ファッションカレッジで教えたのもこのテーマでした。",
       en: 'The specialty since 2017 — why both "engineer" and "designer" are true. Also what got taught at AFC.',
     },
     meta: [{ p: ":since", v: "2017" }],
@@ -364,7 +364,7 @@ export const ENTITIES: Record<string, EntityDetail> = {
     type: "a :Skill",
     title: { ja: "LLM", en: "LLM" },
     desc: {
-      ja: "プロダクトにも、組織にも、セミナーにも。現在の主戦場。(最新の取り組みはこのオントロジーに追記予定)",
+      ja: "プロダクトにも組織運営にも使っていて、セミナーでも話しています。いま一番時間を使っている領域です。最新の取り組みは、このオントロジーに順次追記します。",
       en: "In the product, in the org, on stage. The current frontier. (Latest work to be appended to this ontology.)",
     },
     meta: [{ p: ":status", v: "active" }],
@@ -374,7 +374,7 @@ export const ENTITIES: Record<string, EntityDetail> = {
     type: "a :Hobby",
     title: { ja: "バスケットボール", en: "Basketball" },
     desc: {
-      ja: "コートの上では肩書きは消えます。チームのユニフォームは自分でデザイン(→ :illustration)。",
+      ja: "コートの上では肩書きが消えるのがいいところです。チームのユニフォームは自分でデザインしました(→ :illustration)。",
       en: "Titles disappear on the court. Team uniforms: designed by the player (→ :illustration).",
     },
     rel: ["illustration"],
@@ -383,7 +383,7 @@ export const ENTITIES: Record<string, EntityDetail> = {
     type: "a :Hobby",
     title: { ja: "料理", en: "Cooking" },
     desc: {
-      ja: "日本酒とコーヒーと料理。設計と同じで、素材と手順がすべて。",
+      ja: "料理と日本酒とコーヒー。レシピ通りには作らないので、うまくいったりいかなかったりします。",
       en: "Sake, coffee, cooking. Like engineering: ingredients and process.",
     },
     rel: ["coffee"],
