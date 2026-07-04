@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { NODES, EDGES, nodeById, type QueryId } from "@/data/ontology";
+import { EDGES, ENTITIES, NODES, nodeById, type QueryId } from "@/data/ontology";
 
 interface GraphProps {
   visibleEdges: number;
@@ -30,6 +30,12 @@ const SHAPES: Record<string, string> = {
   hobby: "dot",
 };
 
+/** nodes with a full story panel get the breathing halo */
+const HAS_STORY = new Set(Object.keys(ENTITIES));
+
+/** the graph introduces itself once the parse log finishes */
+const TOUR_STOPS = ["wealthpark", "koiki", "illustration"];
+
 export function OntologyGraph({ visibleEdges, activeQuery, selectedId, onSelect, onHoverChange }: GraphProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   // live prop values readable from the single mount effect
@@ -53,6 +59,15 @@ export function OntologyGraph({ visibleEdges, activeQuery, selectedId, onSelect,
     let dragging: SimNode | null = null;
     let alpha = 1;
     let raf = 0;
+
+    // animation state
+    const bornAt: number[] = new Array(EDGES.length).fill(-1);
+    let prevVisible = 0;
+    let ripple: { x: number; y: number; t0: number } | null = null;
+    let tourId: string | null = null;
+    let tourStarted = false;
+    let tourCancelled = false;
+    const tourTimers: ReturnType<typeof setTimeout>[] = [];
 
     function resize() {
       const dpr = Math.min(devicePixelRatio || 1, 2);
@@ -138,6 +153,33 @@ export function OntologyGraph({ visibleEdges, activeQuery, selectedId, onSelect,
       return false;
     };
 
+    // ---- guided intro tour ----
+    function startTour() {
+      let i = 0;
+      const step = () => {
+        if (tourCancelled || propsRef.current.selectedId || i >= TOUR_STOPS.length) {
+          endTour();
+          return;
+        }
+        tourId = TOUR_STOPS[i++];
+        propsRef.current.onHoverChange(tourId);
+        tourTimers.push(setTimeout(step, 2100));
+      };
+      tourTimers.push(setTimeout(step, 900));
+    }
+    function endTour() {
+      if (tourId) {
+        tourId = null;
+        if (!hover) propsRef.current.onHoverChange(null);
+      }
+    }
+    function cancelTour() {
+      if (!tourCancelled) {
+        tourCancelled = true;
+        endTour();
+      }
+    }
+
     function drawShape(s: SimNode, r: number, fill: string, stroke: string) {
       const cls = nodeById[s.id].cls;
       const shape = SHAPES[cls];
@@ -166,15 +208,28 @@ export function OntologyGraph({ visibleEdges, activeQuery, selectedId, onSelect,
       ctx!.fill();
     }
 
-    function draw() {
+    function draw(now: number) {
       const { visibleEdges, activeQuery, selectedId } = propsRef.current;
+
+      // remember when each edge became visible (for the birth flash)
+      if (visibleEdges > prevVisible) {
+        for (let i = prevVisible; i < visibleEdges; i++) bornAt[i] = now;
+        prevVisible = visibleEdges;
+      }
+      // once the log has committed everything, the graph introduces itself
+      if (!tourStarted && !reduced && visibleEdges >= EDGES.length) {
+        tourStarted = true;
+        startTour();
+      }
+
       ctx!.clearRect(0, 0, W, H);
-      const focus = hover || (selectedId ? simById[selectedId] : null);
+      const focus = hover || (selectedId ? simById[selectedId] : null) || (tourId ? simById[tourId] : null);
       const hood = focus ? neighborhood(focus.id) : null;
 
       let k = 0;
       for (const e of EDGES) {
-        if (k++ >= visibleEdges) break;
+        const idx = k++;
+        if (idx >= visibleEdges) break;
         const p = simById[e.s];
         const q = simById[e.o];
         const na = nodeById[e.s];
@@ -182,20 +237,43 @@ export function OntologyGraph({ visibleEdges, activeQuery, selectedId, onSelect,
         const inHood = hood && focus && (e.s === focus.id || e.o === focus.id);
         const inQuery = activeQuery && na.queries.includes(activeQuery) && nb.queries.includes(activeQuery);
         const w = e.weight ?? 1;
-        ctx!.strokeStyle = inHood ? `rgba(255,176,0,${0.75 * w})` : inQuery ? `rgba(255,176,0,${0.26 * w})` : `rgba(90,98,108,${0.2 * w})`;
-        ctx!.lineWidth = (inHood ? 1.4 : 1) * (w < 1 ? 0.8 : 1);
+        // birth flash: freshly committed edges glow for a moment
+        const age = bornAt[idx] >= 0 ? now - bornAt[idx] : Infinity;
+        const flash = reduced ? 0 : Math.max(0, 1 - age / 700);
+
+        const base = inHood ? 0.75 : inQuery ? 0.26 : 0.2;
+        ctx!.strokeStyle =
+          inHood || flash > 0
+            ? `rgba(255,176,0,${Math.min(0.9, (inHood ? 0.75 : 0.15) * w + flash * 0.6)})`
+            : inQuery
+              ? `rgba(255,176,0,${base * w})`
+              : `rgba(90,98,108,${base * w})`;
+        ctx!.lineWidth = ((inHood ? 1.4 : 1) + flash * 0.8) * (w < 1 ? 0.8 : 1);
         if (w < 1) ctx!.setLineDash([3, 5]);
         ctx!.beginPath();
         ctx!.moveTo(p.x, p.y);
         ctx!.lineTo(q.x, q.y);
         ctx!.stroke();
         ctx!.setLineDash([]);
+
         if (inHood) {
           ctx!.fillStyle = "rgba(255,176,0,0.9)";
           ctx!.font = "9px var(--font-plex-mono), ui-monospace, monospace";
           ctx!.fillText(":" + e.p, (p.x + q.x) / 2 + 6, (p.y + q.y) / 2 - 5);
+
+          // direction pulses: subject → object, so the triple reads as a sentence
+          if (!reduced) {
+            const tt = (now / 1400 + idx * 0.37) % 1;
+            const px = p.x + (q.x - p.x) * tt;
+            const py = p.y + (q.y - p.y) * tt;
+            ctx!.beginPath();
+            ctx!.arc(px, py, 1.7, 0, Math.PI * 2);
+            ctx!.fillStyle = `rgba(255,214,122,${0.9 * (1 - tt * 0.35)})`;
+            ctx!.fill();
+          }
         }
       }
+
       for (const s of sim) {
         if (!nodeVisible(s.id, visibleEdges)) continue;
         const n = nodeById[s.id];
@@ -205,18 +283,44 @@ export function OntologyGraph({ visibleEdges, activeQuery, selectedId, onSelect,
         const lit = isFocus || inHood || (!hood && inQuery);
         const dimmed = (hood && !inHood) || (activeQuery && !inQuery && !hood);
         const r = s.id === "fujii" ? 9 : n.cls === "hobby" ? 3 : 5.5;
+
+        // breathing halo on story nodes: "there is something to open here"
+        if (HAS_STORY.has(s.id) && !dimmed) {
+          const phase = s.id.charCodeAt(0) * 1.7;
+          const breath = reduced ? 0 : Math.sin(now / 900 + phase);
+          const haloAlpha = (s.id === "fujii" ? 0.16 : 0.09) + (reduced ? 0 : 0.05) * (breath * 0.5 + 0.5);
+          ctx!.beginPath();
+          ctx!.arc(s.x, s.y, r + 5 + (reduced ? 0 : breath * 1.4), 0, Math.PI * 2);
+          ctx!.strokeStyle = `rgba(255,176,0,${haloAlpha})`;
+          ctx!.lineWidth = 1.2;
+          ctx!.stroke();
+        }
+
         const fill = s.id === "fujii" || lit ? "#ffb000" : dimmed ? "#232a33" : "#4a525c";
         drawShape(s, r + (isFocus ? 2 : 0), fill, lit ? "#ffb000" : dimmed ? "#232a33" : "#4a525c");
         ctx!.fillStyle = s.id === "fujii" ? "#ffd67a" : lit ? "#e8ecf0" : dimmed ? "#2c333d" : "#727c87";
         ctx!.font = (s.id === "fujii" ? "600 12px" : "10px") + " var(--font-plex-mono), ui-monospace, monospace";
         ctx!.fillText(n.label, s.x + r + 6, s.y + 3);
       }
+
+      // click ripple
+      if (ripple) {
+        const kk = (now - ripple.t0) / 520;
+        if (kk >= 1) ripple = null;
+        else {
+          ctx!.beginPath();
+          ctx!.arc(ripple.x, ripple.y, 10 + kk * 42, 0, Math.PI * 2);
+          ctx!.strokeStyle = `rgba(255,176,0,${0.45 * (1 - kk)})`;
+          ctx!.lineWidth = 1.4;
+          ctx!.stroke();
+        }
+      }
     }
 
-    function loop() {
+    function loop(now: number) {
       if (!reduced || dragging) tick(reduced ? 0.3 : Math.max(0.06, alpha));
       alpha *= 0.998;
-      draw();
+      draw(now);
       raf = requestAnimationFrame(loop);
     }
 
@@ -232,6 +336,7 @@ export function OntologyGraph({ visibleEdges, activeQuery, selectedId, onSelect,
     let downNode: SimNode | null = null;
 
     const onMove = (e: PointerEvent) => {
+      cancelTour();
       const m = pos(e);
       if (dragging) {
         dragging.x = m.x;
@@ -247,6 +352,7 @@ export function OntologyGraph({ visibleEdges, activeQuery, selectedId, onSelect,
       }
     };
     const onDown = (e: PointerEvent) => {
+      cancelTour();
       const m = pos(e);
       downAt = m;
       downNode = pick(m) || null;
@@ -258,15 +364,17 @@ export function OntologyGraph({ visibleEdges, activeQuery, selectedId, onSelect,
     const onUp = (e: PointerEvent) => {
       const m = pos(e);
       const stationary = downAt && Math.hypot(m.x - downAt.x, m.y - downAt.y) < 6;
-      if (downNode && stationary) propsRef.current.onSelect(downNode.id);
-      else if (!downNode && stationary) propsRef.current.onSelect(null);
+      if (downNode && stationary) {
+        ripple = { x: downNode.x, y: downNode.y, t0: performance.now() };
+        propsRef.current.onSelect(downNode.id);
+      } else if (!downNode && stationary) propsRef.current.onSelect(null);
       dragging = null;
       downNode = null;
       downAt = null;
     };
     const onLeave = () => {
       hover = null;
-      propsRef.current.onHoverChange(null);
+      if (!tourId) propsRef.current.onHoverChange(null);
     };
 
     canvas.addEventListener("pointermove", onMove);
@@ -281,10 +389,11 @@ export function OntologyGraph({ visibleEdges, activeQuery, selectedId, onSelect,
 
     resize();
     for (let i = 0; i < 260; i++) tick(1 - i / 300); // pre-settle
-    loop();
+    raf = requestAnimationFrame(loop);
 
     return () => {
       cancelAnimationFrame(raf);
+      tourTimers.forEach(clearTimeout);
       canvas.removeEventListener("pointermove", onMove);
       canvas.removeEventListener("pointerdown", onDown);
       canvas.removeEventListener("pointerup", onUp);
