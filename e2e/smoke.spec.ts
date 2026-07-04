@@ -53,34 +53,37 @@ test.describe("ontology stage (desktop)", () => {
   });
 });
 
-test("full profile opens from the always-visible CTA and links into entities", async ({ page }) => {
+test("full profile CTA leads to the story renderer and links back into the graph", async ({ page }) => {
   await page.goto("/en");
   await page.getByTestId("profile-cta").click();
+  await expect(page).toHaveURL("/en/story");
+  await expect(page.locator(".s-title")).toHaveText("Takahiro Fujii");
+  await expect(page.locator(".story")).toContainText("Career");
 
-  const profile = page.locator(".entity.profile.open");
-  await expect(profile).toBeVisible();
-  await expect(profile).toContainText("Takahiro Fujii");
-  await expect(profile).toContainText("Career");
-  await expect(profile).toContainText("WealthPark");
+  // a linked term opens the derived popover
+  await page.locator('b[data-e="wealthpark"]').first().hover();
+  const pop = page.getByTestId("story-pop");
+  await expect(pop).toHaveClass(/show/);
+  await expect(pop).toContainText(":wealthpark");
 
-  // profile entries link into the entity panels
-  await profile.locator(".p-entry").first().click();
-  await expect(page.locator(".entity.profile.open")).toHaveCount(0);
+  // and the popover jumps into the graph with the panel open
+  await pop.locator(".open").click();
+  await expect(page).toHaveURL(/\/en\?e=wealthpark$/);
   await expect(page.locator(".entity.open .e-uri")).toHaveText(":wealthpark");
 });
 
 test.describe("japanese locale", () => {
   test.use({ locale: "ja-JP" });
 
-  test("renders localized UI text", async ({ page }) => {
+  test("renders localized UI and the Japanese story", async ({ page }) => {
     await page.goto("/");
     await expect(page.getByTestId("profile-cta")).toContainText("プロフィール全文");
     await expect(page.locator(".rail .head")).toContainText("プロダクトエンジニア");
 
     await page.getByTestId("profile-cta").click();
-    const profile = page.locator(".entity.profile.open");
-    await expect(profile).toContainText("経歴");
-    await expect(profile).toContainText("藤井 貴浩");
+    await expect(page).toHaveURL("/story");
+    await expect(page.locator(".s-title")).toHaveText("藤井 貴浩");
+    await expect(page.locator(".story")).toContainText("経歴");
   });
 });
 

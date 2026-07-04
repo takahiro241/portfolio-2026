@@ -3,7 +3,7 @@ import type { Locale } from "@/i18n/config";
 
 interface TopNavProps {
   lang: Locale;
-  active: "works" | "design";
+  active: "works" | "design" | "story";
   /** locale-less path of the current page, e.g. "/works" */
   path: string;
 }
@@ -23,6 +23,9 @@ export function TopNav({ lang, active, path }: TopNavProps) {
         </Link>
         <Link href={`${prefix}/design`} className={active === "design" ? "on" : ""}>
           ?design
+        </Link>
+        <Link href={`${prefix}/story`} className={active === "story" ? "on" : ""}>
+          :profile
         </Link>
       </nav>
       <span className="lang">

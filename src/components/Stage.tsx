@@ -4,7 +4,6 @@ import { useCallback, useEffect, useState } from "react";
 import { OntologyGraph } from "@/components/OntologyGraph";
 import { ParseLog } from "@/components/ParseLog";
 import { EntityPanel } from "@/components/EntityPanel";
-import { ProfilePanel } from "@/components/ProfilePanel";
 import Link from "next/link";
 import { DEFAULT_FOCUS, ENTITIES, NODES, SENTENCES, UI, nodeById, type QueryId } from "@/data/ontology";
 import type { Locale } from "@/i18n/config";
@@ -15,7 +14,6 @@ export function Stage({ lang }: { lang: Locale }) {
   const [visibleEdges, setVisibleEdges] = useState(0);
   const [activeQuery, setActiveQuery] = useState<QueryId | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [profileOpen, setProfileOpen] = useState(false);
   const [hoverId, setHoverId] = useState<string | null>(null);
   const [triples, setTriples] = useState(0);
 
@@ -25,13 +23,7 @@ export function Stage({ lang }: { lang: Locale }) {
   }, []);
 
   const openEntity = useCallback((id: string | null) => {
-    setProfileOpen(false);
     setSelectedId(id);
-  }, []);
-
-  const openProfile = useCallback(() => {
-    setSelectedId(null);
-    setProfileOpen(true);
   }, []);
 
   useEffect(() => {
@@ -43,10 +35,7 @@ export function Stage({ lang }: { lang: Locale }) {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setSelectedId(null);
-        setProfileOpen(false);
-      }
+      if (e.key === "Escape") setSelectedId(null);
     };
     addEventListener("keydown", onKey);
     return () => removeEventListener("keydown", onKey);
@@ -69,9 +58,9 @@ export function Stage({ lang }: { lang: Locale }) {
           triples <span className="stat" data-testid="triples">{triples}</span> · nodes{" "}
           <span className="stat">{NODES.length}</span> · lang <span className="stat">{lang}</span>
         </div>
-        <button className="profile-cta" onClick={openProfile} data-testid="profile-cta">
+        <Link className="profile-cta" href={lang === "ja" ? "/story" : "/en/story"} data-testid="profile-cta">
           {UI.profileButton[lang]} <span aria-hidden="true">▸</span>
-        </button>
+        </Link>
         <ParseLog onCommit={onCommit} />
         <div className="focus">
           <div className="fp">{UI.focusLabel[lang]}</div>
@@ -103,6 +92,7 @@ export function Stage({ lang }: { lang: Locale }) {
           <span className="pagenav">
             <Link href={lang === "ja" ? "/works" : "/en/works"}>?works</Link>
             <Link href={lang === "ja" ? "/design" : "/en/design"}>?design</Link>
+            <Link href={lang === "ja" ? "/story" : "/en/story"}>:profile</Link>
           </span>
           <span className="tempnote">temp 0.0 · deterministic</span>
           <span className="lang">
@@ -123,7 +113,6 @@ export function Stage({ lang }: { lang: Locale }) {
         </div>
 
         <EntityPanel entityId={selectedId} lang={lang} onClose={() => setSelectedId(null)} onOpen={openEntity} />
-        <ProfilePanel open={profileOpen} lang={lang} onClose={() => setProfileOpen(false)} onOpenEntity={openEntity} />
       </section>
     </main>
   );

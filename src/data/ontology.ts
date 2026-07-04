@@ -607,6 +607,14 @@ export const UI = {
     ja: "講演、ポッドキャスト、セミナー、翻訳レビュー、記事。出典チップを押すと、グラフの該当エンティティが開きます。",
     en: "Talks, podcasts, seminars, translation reviews, writing. The source chip on each row opens the entity in the graph.",
   },
+  storyKicker: { ja: "# story renderer · :fujii/profile", en: "# story renderer · :fujii/profile" },
+  storySub: { ja: "Product Engineer / Designer / CTO — Tokyo", en: "Product Engineer / Designer / CTO — Tokyo" },
+  storyHint: { ja: "太字に触れると、裏側の繋がりが見えます", en: "Touch any bold term to see its hidden connections" },
+  storyNote: {
+    ja: "この記事の太字は、すべてグラフのノードです。同じ関係を、文章という形に注ぎ替えています。",
+    en: "Every bold term in this article is a node in the graph — the same relations, poured into prose.",
+  },
+  openInGraph: { ja: "グラフで開く", en: "open in graph" },
   designSub: {
     ja: "幼少期から絵が得意だったわけではありません。大学2年、インターン代でCreative Suiteを買ったところから始まった作品集です。",
     en: "I was never the kid who could draw. This collection started with the Creative Suite bought on internship earnings in my second year of university.",
@@ -647,6 +655,24 @@ As a freelancer and in private projects, involved in planning, design, and devel
 Hobbies include basketball and cooking and drawing.
 Favorite things are coffee, alcoholic beverages, and Japanese cuisine in general.`,
 };
+
+/** surface forms that the story renderer auto-links to entities */
+export const STORY_ALIASES: { id: string; forms: string[] }[] = [
+  { id: "wealthpark", forms: ["WealthPark"] },
+  { id: "rakuten", forms: ["楽天株式会社", "楽天トラベル", "Rakuten Travel", "Rakuten, Inc."] },
+  { id: "llm", forms: ["LLMを", "LLMs", "LLM"] },
+  { id: "uiux", forms: ["UI/UX"] },
+  { id: "vpoe", forms: ["VPoE"] },
+  { id: "svp", forms: ["SVP"] },
+  { id: "cto", forms: ["CTO"] },
+  { id: "fintech", forms: ["FinTech"] },
+  { id: "basketball", forms: ["バスケットボール", "basketball"] },
+  { id: "cooking", forms: ["料理", "cooking"] },
+  { id: "illustration", forms: ["イラストを描くこと", "drawing"] },
+  { id: "coffee", forms: ["コーヒー", "coffee"] },
+  { id: "sake", forms: ["お酒", "alcoholic beverages"] },
+  { id: "washoku", forms: ["和食全般", "Japanese cuisine in general"] },
+];
 
 /** the full-profile document: a curated linear walk through the graph */
 export const PROFILE_SECTIONS: { title: L10n; entityIds: string[] }[] = [
