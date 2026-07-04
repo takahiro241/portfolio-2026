@@ -1,6 +1,6 @@
 "use client";
 
-import { ENTITIES, PROFILE_SECTIONS, UI, nodeById } from "@/data/ontology";
+import { ENTITIES, PROFILE_INTRO, PROFILE_SECTIONS, UI, nodeById } from "@/data/ontology";
 import type { Locale } from "@/i18n/config";
 
 interface ProfilePanelProps {
@@ -33,7 +33,7 @@ export function ProfilePanel({ open, lang, onClose, onOpenEntity }: ProfilePanel
           </div>
           <div className="e-body">
             <div className="e-title hum">{fujii.title[lang]}</div>
-            <p className="e-desc hum">{fujii.desc[lang]}</p>
+            <p className="e-desc p-intro hum">{PROFILE_INTRO[lang]}</p>
 
             {PROFILE_SECTIONS.map((section) => (
               <div className="e-sec" key={section.title.en}>

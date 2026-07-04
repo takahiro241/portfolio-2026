@@ -154,8 +154,8 @@ export const ENTITIES: Record<string, EntityDetail> = {
     type: "a foaf:Person · :ProductEngineer",
     title: { ja: "藤井 貴浩", en: "Takahiro Fujii" },
     desc: {
-      ja: "プロダクトエンジニア、デザイナー、CTO。肩書きは増えましたが、やっているのは設計と実装、組織とロードマップの行き来です。このグラフの辺は、すべてここから伸びています。",
-      en: "Product engineer, designer, CTO. Architecture and implementation, organizations and roadmaps. Every edge starts here.",
+      ja: "WealthPark株式会社にてCTOとしてプロダクト開発を牽引。その側、LLMを駆使してエンジニアとしてプロダクト開発・UI/UXデザイン設計も行っています。このグラフの辺は、すべてここから伸びています。",
+      en: "Leading product development as CTO at WealthPark Inc., and still building products and UI/UX design hands-on with LLMs. Every edge in this graph starts here.",
     },
     meta: [
       { p: ":base", v: "Tokyo, JP" },
@@ -169,8 +169,8 @@ export const ENTITIES: Record<string, EntityDetail> = {
     type: "a :Organization",
     title: { ja: "WealthPark", en: "WealthPark" },
     desc: {
-      ja: "不動産×FinTech。2020年4月にVPoEとして入社し、SVPを経て2024年4月からCTOをしています。プロダクト開発だけでなく、PdM、SRE、セキュリティ、QA、PMOまで含む多国籍のエンジニアリング組織を作ってきました。",
-      en: "Real estate × fintech. Joined April 2020 as VPoE, then SVP, CTO since April 2024. Built a multinational engineering org covering product, PdM, SRE, security, QA and PMO.",
+      ja: "不動産管理会社、不動産オーナー向けプロダクト、オルタナティブ投資のデジタルプラットフォームの開発及び運用を行っています。2020年にWealthParkへ参画し、フロントエンドの開発リード、VPoE、SVPを経て、2024年より現職であるCTOに就任しました。",
+      en: "Developing and operating products for real estate management companies and property owners, as well as a digital platform for alternative investments. Joined in 2020; frontend development lead, VPoE and SVP before being appointed CTO in 2024.",
     },
     meta: [
       { p: ":since", v: "2020.04" },
@@ -180,7 +180,8 @@ export const ENTITIES: Record<string, EntityDetail> = {
     items: [
       { y: "2023", label: { ja: "WealthPark Engineering Blog 開設", en: "Launched WealthPark Engineering Blog" }, href: "https://medium.com/wealthpark-engineering" },
       { y: "2022", label: { ja: "Remote Trust — RSGT2022(Matteo Carellaと共同登壇)", en: "Remote Trust — RSGT2022 (with Matteo Carella)" } },
-      { y: "2021", label: { ja: "VPが語る、WealthParkのプロダクト、技術、組織(Wantedly)", en: "WealthPark's Product VPs talk (Wantedly)" } },
+      { y: "2021", label: { ja: "グローバルなエンジニア組織を率いるVPoEの挑戦(Wantedly)", en: "Challenges of a VP of Engineering leading a global org (Wantedly)" } },
+      { y: "2020", label: { ja: "VPが語る、WealthParkのプロダクト、技術、組織(Wantedly)", en: "WealthPark's Product VPs talk about products, technologies, and organization (Wantedly)" } },
     ],
     rel: ["cto", "svp", "vpoe", "realestate", "fintech"],
   },
@@ -188,11 +189,11 @@ export const ENTITIES: Record<string, EntityDetail> = {
     type: "a :Organization",
     title: { ja: "楽天(楽天トラベル)", en: "Rakuten (Travel)" },
     desc: {
-      ja: "キャリアの起点です。海外ホテルの予約システムから管理画面、会計、外部連携まで一通り作りました。20名を超えるフロントエンド組織で、reactの大規模プロダクトをリードしていた時期もあります。",
-      en: "Where it started: booking systems, admin tools, accounting, integrations. Led a 20+ engineer React frontend at scale.",
+      ja: "フルスタックエンジニア、エンジニアリングマネージャとして楽天トラベルの開発業務に従事。国際業務チームにて、海外ホテルの予約システムや管理画面、経理システム、インバウンドサイト、外部システム連携など、複数の新規サービスの立ち上げおよび開発に携わりました。",
+      en: "Full-stack engineer and engineering manager at Rakuten Travel. In the international business team, launched and developed multiple new services: booking systems for overseas hotels, management screens, accounting systems, inbound sites and external integrations.",
     },
     meta: [
-      { p: ":period", v: "—2020" },
+      { p: ":period", v: "2010 – 2019" },
       { p: ":domain", v: ":travel" },
     ],
     items: [
@@ -220,11 +221,11 @@ export const ENTITIES: Record<string, EntityDetail> = {
     type: "a :Organization · :College",
     title: { ja: "青山ファッションカレッジ", en: "Aoyama Fashion College" },
     desc: {
-      ja: "2023年度、Web制作の講師をしました。ファッションを学ぶ学生にWebを教えるのは、エンジニアに教えるのとは全く別の面白さがありました。",
-      en: "Taught web production (AY2023) — where design meets technology, for fashion students.",
+      ja: "青山ファッションカレッジにて、ファッションテック科のWeb制作のシラバス制作と講義を担当しました(2023年度)。",
+      en: "Created the syllabus and taught web production for the Fashion Tech Department at Aoyama Fashion College (AY2023).",
     },
     meta: [
-      { p: ":subject", v: "Web制作 / web production" },
+      { p: ":subject", v: "ファッションテック科 Web制作" },
       { p: ":year", v: "AY2023" },
     ],
     rel: ["uiux", "illustration"],
@@ -233,8 +234,8 @@ export const ENTITIES: Record<string, EntityDetail> = {
     type: "a :Artifact · :Podcast",
     title: { ja: "小粋fm(Koiki.fm)", en: "Koiki.fm" },
     desc: {
-      ja: "2020年から続けているポッドキャストです。エンジニアリングマネージャーのキャリアや組織の話を、飾らずに話しています。ロゴは自作です(→ :illustration)。",
-      en: "A podcast for engineering managers — careers, orgs, and the craft. Logo drawn by the host (→ :illustration).",
+      ja: "Engineering Manager向けのPodcastを2名で運営しています(2020-現在)。ロゴは自作です(→ :illustration)。",
+      en: "Co-hosting a podcast for Engineering Managers (2020-present). Logo drawn by the host (→ :illustration).",
     },
     meta: [
       { p: ":since", v: "2020" },
@@ -256,16 +257,17 @@ export const ENTITIES: Record<string, EntityDetail> = {
       { p: ":languages", v: "ja / en" },
     ],
     items: [
-      { y: "2022", label: { ja: "Remote Trust — RSGT2022(w/ Matteo Carella)", en: "Remote Trust — RSGT2022 (w/ Matteo Carella)" } },
+      { y: "2023", label: { ja: "日本にいながら多国籍チームで働けるスタートアップエンジニアトーク!!", en: "Startup engineer talk: working in multinational teams while in Japan" } },
+      { y: "2022", label: { ja: "Remote Trust - RSGT2022(Matteo Carella氏と共同発表)", en: "Remote Trust - RSGT2022 (with Matteo Carella)" } },
       { y: "2022", label: { ja: "What do we want to know through coding assessment", en: "What do we want to know through coding assessment" } },
       { y: "2021", label: { ja: "SquadにおけるPO/PdMとエンジニアの協業", en: "PO/PdM × engineer collaboration in Squads" } },
       { y: "2019", label: { ja: "Large react product with 20+ FE engineers(React Tokyo Plus)", en: "Large react product with 20+ FE engineers" } },
       { y: "2019", label: { ja: "楽天トラベルのフロントエンド(React Meetup)", en: "Rakuten Travel frontend (React Meetup)" } },
-      { y: "2018", label: { ja: "東京理科大学 講演「グローバルな環境におけるエンジニアのキャリア形成」", en: "Tokyo Univ. of Science — engineering careers in global orgs" } },
-      { y: "2018", label: { ja: "東京理科大学 寄稿「好きなことを仕事にする」(科学フォーラム)", en: 'TUS essay: "Making what you love your work"' } },
-      { y: "2017", label: { ja: "Microservice Meetup Vol.6", en: "Microservice Meetup Vol.6" } },
+      { y: "2017", label: { ja: "東京理科大学 講演「グローバルな環境におけるエンジニアのキャリア形成」", en: "Tokyo University of Science lecture: career development for engineers in a global environment" } },
+      { y: "2017", label: { ja: "東京理科大学 寄稿「好きなことを仕事にする」(科学フォーラム)", en: "Tokyo University of Science journal essay: turning what you love into a job" } },
+      { y: "2018", label: { ja: "Microservice Meetup Vol.6", en: "Microservice Meetup Vol.6" } },
       { y: "2016", label: { ja: "楽天トラベルとSpring(Spring Day 2016)", en: "Rakuten Travel and Spring (Spring Day 2016)" } },
-      { y: "2016", label: { ja: "Spring Rest Docsの活用(JSUG)", en: "Spring REST Docs (JSUG)" } },
+      { y: "2015", label: { ja: "Spring Rest Docsの活用について(JSUG)", en: "Using Spring REST Docs (JSUG)" } },
     ],
     rel: ["engmgmt", "react", "rakuten", "wealthpark"],
   },
@@ -273,8 +275,8 @@ export const ENTITIES: Record<string, EntityDetail> = {
     type: "a :Artifact · :SeminarSeries",
     title: { ja: "AIセミナー", en: "AI Seminars" },
     desc: {
-      ja: "不動産事業者やビジネス職向けのLLM入門セミナー。仕組み、使い方、セキュリティの順で話します。AIは難しくない、と言い続けるのが自分の役目だと思っています。",
-      en: '"AI is not difficult" — LLM intros for real-estate operators and business teams: how it works, how to use it, how to keep it safe.',
+      ja: "不動産会社やビジネス職向けに、AI・ChatGPT入門のセミナー登壇やパネルディスカッションを行っています。テーマは『AIは難しくない!不動産会社のためのAI超入門』など。",
+      en: "AI and ChatGPT intro seminars and panel discussions for real-estate companies and business teams, including 'AI is Not Difficult! AI Super Introduction for Real Estate Companies'.",
     },
     meta: [
       { p: ":since", v: "2023" },
@@ -291,8 +293,8 @@ export const ENTITIES: Record<string, EntityDetail> = {
     type: "a :Artifact · :ReviewWork",
     title: { ja: "技術書 翻訳レビュー", en: "Book Translation Reviews" },
     desc: {
-      ja: "技術書の翻訳レビューに参加しています。訳文がちゃんと日本語として読めるかを、最初の読者として検品する役です。",
-      en: "Reviewing Japanese translations of engineering books — the first reader who checks it truly reads.",
+      ja: "『スタッフエンジニアの道』『ソフトウェアアーキテクトのための意思決定術』の翻訳レビューを行いました(2024)。",
+      en: "Performed translation reviews of The Staff Engineer's Path and Software Architecture and Decision-Making (2024).",
     },
     meta: [{ p: ":year", v: "2024" }],
     items: [
@@ -323,8 +325,8 @@ export const ENTITIES: Record<string, EntityDetail> = {
     type: "a :Artifact · :DesignWork",
     title: { ja: "イラスト & デザインワーク", en: "Illustration & Design Works" },
     desc: {
-      ja: "自画像、あじさい、富士山。小粋fmのロゴやLineスタンプ、名刺、バスケのユニフォームも作りました。描き続けているのは、デザインの目が鈍らないようにするためです。",
-      en: "Self-portraits, hydrangeas, Mt. Fuji. The Koiki.fm logo, Line stickers, business cards, basketball uniforms. Drawing keeps the design eye sharp.",
+      ja: "プライベートで制作したデザインやイラストの作品集です。小粋fmのロゴやLineスタンプ、名刺、バスケットボールのユニフォームも自作しました。",
+      en: "A collection of design and illustration works made in private: the Koiki.fm logo, Line stickers, business cards and basketball uniforms included.",
     },
     meta: [
       { p: ":tool", v: "iPad, Figma" },
@@ -354,8 +356,8 @@ export const ENTITIES: Record<string, EntityDetail> = {
     type: "a :Domain",
     title: { ja: "UI / UX", en: "UI / UX" },
     desc: {
-      ja: "2017年からの専門領域です。エンジニアとデザイナーを両方名乗る根拠はここにあります。青山ファッションカレッジで教えたのもこのテーマでした。",
-      en: 'The specialty since 2017 — why both "engineer" and "designer" are true. Also what got taught at AFC.',
+      ja: "2017年以降、UI/UX領域を専門とするエンジニアおよびエンジニアリングマネージャとして、WebフロントエンドやAndroid/iOSアプリ開発チームのマネジメント、サービス・組織の成長を牽引してきました。",
+      en: "Since 2017, specialized in the UI/UX domain as an engineer and engineering manager, leading web frontend and Android/iOS app teams and driving the growth of services and organizations.",
     },
     meta: [{ p: ":since", v: "2017" }],
     rel: ["figma", "afc", "goodpatch"],
@@ -364,8 +366,8 @@ export const ENTITIES: Record<string, EntityDetail> = {
     type: "a :Skill",
     title: { ja: "LLM", en: "LLM" },
     desc: {
-      ja: "プロダクトにも組織運営にも使っていて、セミナーでも話しています。いま一番時間を使っている領域です。最新の取り組みは、このオントロジーに順次追記します。",
-      en: "In the product, in the org, on stage. The current frontier. (Latest work to be appended to this ontology.)",
+      ja: "LLMを駆使したプロダクト開発・UI/UXデザイン設計に取り組んでいます。最新の取り組みは、このオントロジーに順次追記します。",
+      en: "Building products and UI/UX design with LLMs, hands-on. Latest work will be appended to this ontology.",
     },
     meta: [{ p: ":status", v: "active" }],
     rel: ["seminars", "wealthpark"],
@@ -383,8 +385,8 @@ export const ENTITIES: Record<string, EntityDetail> = {
     type: "a :Hobby",
     title: { ja: "料理", en: "Cooking" },
     desc: {
-      ja: "料理と日本酒とコーヒー。レシピ通りには作らないので、うまくいったりいかなかったりします。",
-      en: "Sake, coffee, cooking. Like engineering: ingredients and process.",
+      ja: "趣味は料理。好きなものはコーヒー、お酒、和食全般です。",
+      en: "Cooking as a hobby. Favorite things: coffee, alcohol, and Japanese cuisine in general.",
     },
     rel: ["coffee"],
   },
@@ -395,7 +397,7 @@ export const SENTENCES: Record<string, L10n> = {
   cto: { ja: "2024年4月からWealthParkの<b>CTO</b>。", en: "<b>CTO</b> at WealthPark since April 2024." },
   svp: { ja: "<b>SVP</b>(2023.03–2024.04)— VPoEとCTOの間の一年。", en: "<b>SVP</b> (2023.03–2024.04) — the year between VPoE and CTO." },
   vpoe: { ja: "<b>VPoE</b>(2020.04–2023.03)として多国籍組織を構築。", en: "Built a multinational org as <b>VPoE</b> (2020.04–2023.03)." },
-  engineer: { ja: "起点はフルスタック<b>エンジニア</b>(楽天トラベル)。", en: "Started as a full-stack <b>engineer</b> at Rakuten Travel." },
+  engineer: { ja: "フルスタック<b>エンジニア</b>、EMとして楽天トラベル(2010-2019)。", en: "Full-stack <b>engineer</b> and EM at Rakuten Travel (2010-2019)." },
 };
 
 export const DEFAULT_FOCUS: L10n = {
@@ -420,6 +422,41 @@ export const UI = {
   },
   close: { ja: "閉じる", en: "close" },
 } satisfies Record<string, L10n>;
+
+
+/** the 2025 site's full AboutMe text, reused verbatim as the profile intro */
+export const PROFILE_INTRO: L10n = {
+  ja: `WealthPark株式会社にてCTOとしてプロダクト開発を牽引。
+その側、LLMを駆使してエンジニアとしてプロダクト開発・UI/UXデザイン設計も行う。
+
+大学卒業後、楽天株式会社に入社し、楽天トラベルの開発業務に従事。
+国際業務チームにて、海外ホテルの予約システムや管理画面、経理システム、インバウンドサイト、外部システム連携など、複数の新規サービスの立ち上げおよび開発に携わる。
+フルスタックエンジニアとしてキャリアをスタートし、2017年以降はUI/UX領域を専門とするエンジニアおよびエンジニアリングマネージャとして、WebフロントエンドやAndroid/iOSアプリ開発チームのマネジメント、サービス・組織の成長を牽引。
+
+2020年にWealthParkへ参画。
+フロントエンドの開発リードとして開発に従事したのち、VPoEとして多国籍なエンジニア組織(プロダクト開発・PdM・SRE・セキュリティ・QA・PMOなど)の構築・強化(採用含む)に注力しつつ、不動産・FinTech領域における複数サービスの開発をリードする。
+2024年より現職であるCTOに就任。
+CTOとして経営とエンジニアリングの接続/技術を基盤とした文化の醸成/エンジニアリングとソフトウェアを通じた企業価値の最大化などにも取り組んでいる。
+
+フリーランス・プライベートではプロダクトマネジメント・デザイン含めた企画・デザイン・開発を行う。
+趣味はバスケットボール、料理、イラストを描くこと。
+好きなものはコーヒー、お酒、和食全般。`,
+  en: `Leading product development as CTO at WealthPark Inc.
+Also actively involved in product development and UI/UX design as an engineer utilizing LLMs.
+
+After graduating from university, joined Rakuten, Inc. and worked on the development of Rakuten Travel.
+In the international business team, involved in the launch and development of multiple new services, including booking systems for overseas hotels, management screens, accounting systems, inbound sites, and external system integration.
+Started career as a full-stack engineer. Since 2017, specialized in the UI/UX domain as an engineer and engineering manager, leading the management of web frontend and Android/iOS app development teams, and driving the growth of services and organizations.
+
+Joined WealthPark in 2020.
+After working as a frontend development lead, focused on building and strengthening a multinational engineering organization (product development, PdM, SRE, security, QA, PMO, etc.) as VPoE, while leading the development of multiple services in the real estate and FinTech domains.
+Appointed to the current position of CTO in 2024.
+As CTO, also focusing on establishing budgets, mid-to-long-term development roadmaps, resource allocation, and evaluation systems.
+
+As a freelancer and in private projects, involved in planning, design, and development, including product management and design.
+Hobbies include basketball and cooking and drawing.
+Favorite things are coffee, alcoholic beverages, and Japanese cuisine in general.`,
+};
 
 /** the full-profile document: a curated linear walk through the graph */
 export const PROFILE_SECTIONS: { title: L10n; entityIds: string[] }[] = [

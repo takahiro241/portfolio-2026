@@ -6,7 +6,10 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 # 日本語コピーの品質基準
 
-サイトに載る日本語(src/data/ontology.ts の ja テキスト、UI文言)を書く・変更するときは、必ず `.claude/skills/stop-ai-slop-jp/SKILL.md` の基準でレビューしてから確定する。特に:
+サイトに載る日本語(src/data/ontology.ts の ja テキスト、UI文言)には優先順位がある:
+
+1. **本人の既存文章を最優先で流用する**(portfolio-2025 の src/i18n/dictionaries、note.com)。AI臭対策として最も効くのは本人の声そのもの。
+2. 新規に書く場合のみ、`.claude/skills/stop-ai-slop-jp/SKILL.md` の基準でレビューしてから確定する。特に:
 
 - 体言止めを連発しない(リズムのムラを作る)
 - 全角ダッシュ、普通語の「」囲み、3項並列を使わない

@@ -394,6 +394,12 @@ body {
   color: var(--dim);
   letter-spacing: 0.06em;
 }
+/* profile document */
+.p-intro {
+  white-space: pre-line; /* the 2025 AboutMe text keeps its own line breaks */
+  font-size: 13.5px;
+}
+
 /* profile document entries */
 .p-entry {
   display: block;
