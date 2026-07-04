@@ -102,6 +102,7 @@ export const NODES: OntologyNode[] = [
   { id: "engmgmt", label: ":eng-management", cls: "domain", queries: ["voice", "career"], seed: [0.42, 0.34] },
   // life
   { id: "tokyo", label: ":tokyo", cls: "domain", queries: ["life"], seed: [0.58, 0.8] },
+  { id: "origins", label: ":origins", cls: "domain", queries: ["life", "craft"], seed: [0.8, 0.94] },
   { id: "tokyolocal", label: ":tokyo-as-a-local", cls: "artifact", queries: ["life", "craft"], seed: [0.72, 0.84] },
   { id: "koikiteam", label: ":koiki-team", cls: "org", queries: ["craft", "life"], seed: [0.22, 0.08] },
   { id: "basketball", label: ":basketball", cls: "hobby", queries: ["life"], seed: [0.52, 0.9] },
@@ -160,6 +161,9 @@ export const EDGES: OntologyEdge[] = [
   { s: "fujii", p: "cooks", o: "cooking" },
   { s: "fujii", p: "drinks", o: "coffee" },
   { s: "coffee", p: "fueled", o: "engineer" },
+  { s: "fujii", p: "rootedIn", o: "origins" },
+  { s: "origins", p: "fueled", o: "engineer" },
+  { s: "origins", p: "fueled", o: "uiux" },
   { s: "basketball", p: "at", o: "rakuten", weight: 0.6 },
 ];
 
@@ -411,6 +415,32 @@ export const ENTITIES: Record<string, EntityDetail> = {
     meta: [{ p: ":status", v: "active" }],
     rel: ["seminars", "wealthpark"],
   },
+  origins: {
+    type: "a :Domain · :OriginStory",
+    title: { ja: "原体験", en: "Origins" },
+    desc: {
+      ja: "機械に自然と馴染めたのは、父親の影響が大きいと思います。幼少期は家のワープロで意味もわからずタイピング。小学校の教室にはMacintoshが2台あり、インクレディブルマシーンでよく遊びました。父親がWindows 95を買ってからは、家でパソコンをよく触るように。中学ではポストペットやオンラインオセロのnethelloで遊ぶうちに、BBSを作り、チャットを作り、ホームページを作り、HTMLに手を出しました。この頃の体験が、いまの仕事を選んだ原体験だと思います。",
+      en: "Getting comfortable with machines came from my father. As a small kid I typed away on the family word processor without understanding a thing. My elementary school classroom had two Macintoshes, where I played The Incredible Machine; then my father bought Windows 95 and the home PC became my playground. In junior high, PostPet and an online Othello game called nethello led to building BBSes, then chat rooms, then homepages, and to HTML. I think those years are why I chose this work.",
+    },
+    meta: [
+      { p: ":influence", v: "父親" },
+      { p: ":firstMachines", v: "ワープロ, Macintosh, Windows 95" },
+      { p: ":major", v: "数理情報科学" },
+    ],
+    items: [
+      { y: "幼少期", label: { ja: "家のワープロで、意味もわからずタイピング", en: "Typing on the family word processor, meaning unknown" } },
+      { y: "小学校", label: { ja: "教室のMacintosh 2台と、インクレディブルマシーン", en: "Two classroom Macintoshes and The Incredible Machine" } },
+      { y: "小学校", label: { ja: "父親がWindows 95を購入、家がパソコン部屋に", en: "Father buys Windows 95; the home PC era begins" } },
+      { y: "中学", label: { ja: "ポストペット、nethello(オンラインオセロ)", en: "PostPet and nethello, an online Othello game" } },
+      { y: "中学", label: { ja: "BBS → チャット → ホームページ → HTML", en: "BBS → chat → homepages → HTML" } },
+      { y: "高校", label: { ja: "バスケに熱中して小休止(→ :basketball)", en: "A basketball-fueled intermission (→ :basketball)" } },
+      { y: "大学", label: { ja: "数理情報科学を専攻し、コンピュータの世界に帰還", en: "Majoring in mathematical information science: back to computers" } },
+      { y: "大学", label: { ja: "塾講師 — Illustratorを駆使して教材プリントを自作", en: "Tutoring job: making original teaching materials in Illustrator" } },
+      { y: "大学", label: { ja: "広報課バイトでデザインとWeb制作", en: "University PR office job: design and web production" } },
+      { y: "卒研", label: { ja: "GoogleのPageRankアルゴリズムの改善", en: "Improving Google's PageRank algorithm" } },
+    ],
+    rel: ["engineer", "uiux", "basketball"],
+  },
   tokyo: {
     type: "a :Place",
     title: { ja: "東京", en: "Tokyo" },
@@ -584,6 +614,7 @@ export const PROFILE_SECTIONS: { title: L10n; entityIds: string[] }[] = [
 export const LOG_LINES: LogLine[] = [
   { s: ":fujii", p: "a", o: "foaf:Person, :ProductEngineer", ghosts: [":Designer", ":CTO"] },
   { s: ":fujii", p: ":holdsRole", o: ":CTO", ghosts: [":SVP", ":VPoE"] },
+  { s: ":fujii", p: ":rootedIn", o: ":origins", ghosts: [":win95", ":html"] },
   { s: ":CTO", p: ":at", o: ":wealthpark" },
   { s: ":fujii", p: ":taught", o: ":afc", ghosts: [":web制作"] },
   { s: ":fujii", p: ":coHosts", o: ":koiki.fm", ghosts: [":podcast"] },
