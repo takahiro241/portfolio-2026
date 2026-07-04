@@ -28,6 +28,8 @@ export interface OntologyEdge {
   s: string;
   p: string;
   o: string;
+  /** 0-1; weak/tentative relations render thin and dashed (default 1) */
+  weight?: number;
 }
 
 export interface EntityMeta {
@@ -134,6 +136,7 @@ export const EDGES: OntologyEdge[] = [
   { s: "fujii", p: "writes", o: "note" },
   { s: "fujii", p: "wrote", o: "designeer" },
   { s: "designeer", p: "about", o: "java" },
+  { s: "designeer", p: "about", o: "travel", weight: 0.35 },
   { s: "fujii", p: "designs", o: "uiux" },
   { s: "uiux", p: "with", o: "figma" },
   { s: "fujii", p: "codesIn", o: "typescript" },

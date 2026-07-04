@@ -181,12 +181,15 @@ export function OntologyGraph({ visibleEdges, activeQuery, selectedId, onSelect,
         const nb = nodeById[e.o];
         const inHood = hood && focus && (e.s === focus.id || e.o === focus.id);
         const inQuery = activeQuery && na.queries.includes(activeQuery) && nb.queries.includes(activeQuery);
-        ctx!.strokeStyle = inHood ? "rgba(255,176,0,0.75)" : inQuery ? "rgba(255,176,0,0.26)" : "rgba(90,98,108,0.20)";
-        ctx!.lineWidth = inHood ? 1.4 : 1;
+        const w = e.weight ?? 1;
+        ctx!.strokeStyle = inHood ? `rgba(255,176,0,${0.75 * w})` : inQuery ? `rgba(255,176,0,${0.26 * w})` : `rgba(90,98,108,${0.2 * w})`;
+        ctx!.lineWidth = (inHood ? 1.4 : 1) * (w < 1 ? 0.8 : 1);
+        if (w < 1) ctx!.setLineDash([3, 5]);
         ctx!.beginPath();
         ctx!.moveTo(p.x, p.y);
         ctx!.lineTo(q.x, q.y);
         ctx!.stroke();
+        ctx!.setLineDash([]);
         if (inHood) {
           ctx!.fillStyle = "rgba(255,176,0,0.9)";
           ctx!.font = "9px var(--font-plex-mono), ui-monospace, monospace";
