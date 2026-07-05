@@ -473,7 +473,11 @@ export const ENTITIES: Record<string, EntityDetail> = {
       en: "Building products and UI/UX design with LLMs, hands-on. Latest work will be appended to this ontology.",
     },
     meta: [{ p: ":status", v: "active" }],
-    rel: ["seminars", "wealthpark"],
+    items: [
+      { y: "—", label: { ja: "プロトタイプ開発では、フロントもバックもTypeScriptで統一することが増えた", en: "Prototypes increasingly run TypeScript end to end, front and back" } },
+      { y: "—", label: { ja: "AIエージェント開発やLLM関連の処理はPythonでも", en: "AI agent development and LLM processing happen in Python too" } },
+    ],
+    rel: ["seminars", "wealthpark", "typescript", "python"],
   },
   origins: {
     type: "a :Domain · :OriginStory",
@@ -608,6 +612,65 @@ export const ENTITIES: Record<string, EntityDetail> = {
       { p: ":quality", v: "油分少なめ、落ち着いて食べられる" },
     ],
     rel: ["cooking", "sake", "travel"],
+  },
+  java: {
+    type: "a :Skill · :ProgrammingLanguage",
+    title: { ja: "Java", en: "Java" },
+    desc: {
+      ja: "主に楽天時代のメインの開発言語です。部署でのSpring Boot導入を推進したことをきっかけに、Springフレームワークを中心に開発していました。その流れで、Spring関連の国内カンファレンスや勉強会にも数回登壇しています(→ :talks)。",
+      en: "The main language of the Rakuten years. Championing the department's Spring Boot adoption led to building around the Spring framework, and from there to several talks at domestic Spring conferences and meetups (→ :talks).",
+    },
+    meta: [
+      { p: ":era", v: "楽天(2010-2019)" },
+      { p: ":framework", v: "Spring Boot" },
+    ],
+    rel: ["rakuten", "talks", "designeer"],
+  },
+  react: {
+    type: "a :Skill · :Library",
+    title: { ja: "React", en: "React" },
+    desc: {
+      ja: "2016年に部内でReactを使ったプロダクト開発を行ったのをきっかけに、以降のフロントエンド開発はReactが中心です。WealthParkでも同様にReactでプロダクトを開発しています。Next.jsと併用することも多いです(プライベートではVue・Nuxt.jsの経験もあります)。",
+      en: "A 2016 in-house product built with React set the direction: frontend work has centered on React ever since, at WealthPark included. Often paired with Next.js (with some private Vue and Nuxt.js experience on the side).",
+    },
+    meta: [
+      { p: ":since", v: "2016(楽天トラベル初のSPA)" },
+      { p: ":with", v: "Next.js" },
+    ],
+    rel: ["rakuten", "wealthpark", "typescript"],
+  },
+  typescript: {
+    type: "a :Skill · :ProgrammingLanguage",
+    title: { ja: "TypeScript", en: "TypeScript" },
+    desc: {
+      ja: "Reactと同じ文脈で、フロントエンド開発はTypeScriptで行っています。BFFをTypeScriptとNest.jsで開発することもあります。最近は、LLMを使ったプロトタイプ開発で、フロントエンドとバックエンドをTypeScriptに統一することも増えました。",
+      en: "Frontend work happens in TypeScript, same context as React, with BFFs built in TypeScript and Nest.js. Lately, LLM prototypes increasingly unify frontend and backend in TypeScript alone.",
+    },
+    meta: [{ p: ":scope", v: "フロントエンド、BFF(Nest.js)、LLMプロトタイプ" }],
+    rel: ["react", "llm", "wealthpark"],
+  },
+  python: {
+    type: "a :Skill · :ProgrammingLanguage",
+    title: { ja: "Python", en: "Python" },
+    desc: {
+      ja: "Djangoを利用したプロダクト開発の経験が一定あります。近年は、AIエージェントの開発やLLM関連の処理をPythonで行うことも増えてきました。",
+      en: "A fair amount of product development with Django, and in recent years, growing use of Python for AI agent development and LLM-related processing.",
+    },
+    meta: [
+      { p: ":framework", v: "Django" },
+      { p: ":recent", v: "AIエージェント、LLM処理" },
+    ],
+    rel: ["llm"],
+  },
+  go: {
+    type: "a :Skill · :ProgrammingLanguage",
+    title: { ja: "Go", en: "Go" },
+    desc: {
+      ja: "WealthParkではバックエンドの大半をGoで開発しています。フリーランスとしてGoのバックエンドを書いた経験もあります。",
+      en: "Most of WealthPark's backend is built in Go, with some freelance Go backend work as well.",
+    },
+    meta: [{ p: ":scope", v: "WealthParkのバックエンドの大半" }],
+    rel: ["wealthpark"],
   },
   engmgmt: {
     type: "a :Domain",
