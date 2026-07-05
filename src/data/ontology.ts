@@ -72,6 +72,7 @@ export const NODES: OntologyNode[] = [
   { id: "svp", label: ":SVP", cls: "role", queries: ["career"], seed: [0.64, 0.34] },
   { id: "vpoe", label: ":VPoE", cls: "role", queries: ["career"], seed: [0.72, 0.42] },
   { id: "engineer", label: ":Engineer", cls: "role", queries: ["career"], seed: [0.78, 0.54] },
+  { id: "em", label: ":EM", cls: "role", queries: ["career"], seed: [0.84, 0.48] },
   { id: "wealthpark", label: ":wealthpark", cls: "org", queries: ["career"], seed: [0.62, 0.16] },
   { id: "rakuten", label: ":rakuten", cls: "org", queries: ["career"], seed: [0.88, 0.62] },
   { id: "goodpatch", label: ":designers-gym", cls: "org", queries: ["career", "craft"], seed: [0.9, 0.4] },
@@ -121,6 +122,12 @@ export const EDGES: OntologyEdge[] = [
   { s: "cto", p: "at", o: "wealthpark" },
   { s: "svp", p: "at", o: "wealthpark" },
   { s: "vpoe", p: "at", o: "wealthpark" },
+  { s: "fujii", p: "heldRole", o: "em" },
+  { s: "em", p: "at", o: "rakuten" },
+  { s: "em", p: "involves", o: "engmgmt" },
+  { s: "vpoe", p: "involves", o: "engmgmt" },
+  { s: "svp", p: "involves", o: "engmgmt" },
+  { s: "cto", p: "involves", o: "engmgmt" },
   { s: "engineer", p: "at", o: "rakuten" },
   { s: "engineer", p: "at", o: "wealthpark" },
   { s: "fujii", p: "trainedAt", o: "goodpatch" },
@@ -545,6 +552,16 @@ export const ENTITIES: Record<string, EntityDetail> = {
     ],
     rel: ["cooking", "sake", "travel"],
   },
+  engmgmt: {
+    type: "a :Domain",
+    title: { ja: "エンジニアリングマネジメント", en: "Engineering Management" },
+    desc: {
+      ja: "楽天でのEM兼任に始まり、VPoE、SVP、CTOと役割を変えながら続いている業務であり、同時に小粋fmや講演、翻訳レビューで発信し続けているテーマでもあります。やる側と話す側の両方をやっているのがこの領域です。",
+      en: "It started as an EM double-role at Rakuten and has continued through VPoE, SVP and CTO — while also being the theme of the podcast, the talks and the translation reviews. The one domain where doing it and talking about it never stopped overlapping.",
+    },
+    meta: [{ p: ":since", v: "2017(楽天でのEM兼任)" }],
+    rel: ["vpoe", "cto", "koiki", "talks", "reviews"],
+  },
   english: {
     type: "a :Skill · :Language",
     title: { ja: "英語", en: "English" },
@@ -598,6 +615,7 @@ export const SENTENCES: Record<string, L10n> = {
   cto: { ja: "2024年4月からWealthParkの<b>CTO</b>。", en: "<b>CTO</b> at WealthPark since April 2024." },
   svp: { ja: "<b>SVP</b>(2023.03–2024.04)— VPoEとCTOの間の一年。", en: "<b>SVP</b> (2023.03–2024.04) — the year between VPoE and CTO." },
   vpoe: { ja: "<b>VPoE</b>(2020.04–2023.03)として多国籍組織を構築。", en: "Built a multinational org as <b>VPoE</b> (2020.04–2023.03)." },
+  em: { ja: "楽天でエンジニア兼<b>EM</b>(2017-2019)。マネジメントのキャリアはここから。", en: "Engineer and <b>EM</b> at Rakuten (2017-2019) — where the management career began." },
   engineer: { ja: "楽天(2010-2019)で始まり、WealthParkでもいまも続く<b>エンジニア</b>。CTOになっても、LLMを駆使して手を動かしています。", en: "Started at Rakuten (2010-2019) and still going at WealthPark: an <b>engineer</b> who keeps building hands-on with LLMs, CTO title notwithstanding." },
 };
 
