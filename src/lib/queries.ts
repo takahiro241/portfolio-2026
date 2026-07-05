@@ -5,7 +5,7 @@ import { ENTITIES, type EntityItem } from "@/data/ontology";
  * Pages are views over the ontology; nothing here is hand-maintained.
  */
 
-export const WORK_SOURCES = ["talks", "seminars", "reviews", "note", "koiki", "wealthpark"] as const;
+export const WORK_SOURCES = ["talks", "seminars", "reviews", "koiki", "wealthpark"] as const;
 export type WorkSource = (typeof WORK_SOURCES)[number];
 
 export interface WorkRow extends EntityItem {

@@ -24,7 +24,7 @@ export function WorksView({ lang }: { lang: Locale }) {
         </div>
         <div>
           &nbsp;&nbsp;:fujii <span className="q">:speaksAt</span>|<span className="q">:coHosts</span>|
-          <span className="q">:reviewed</span>|<span className="q">:writes</span> ?artifact .
+          <span className="q">:reviewed</span> ?artifact .
         </div>
         <div>
           &nbsp;&nbsp;?instance <span className="q">:partOf</span> ?artifact . {"}"} ORDER BY DESC(
