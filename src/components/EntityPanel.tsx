@@ -71,7 +71,15 @@ export function EntityPanel({ entityId, lang, onClose, onOpen }: EntityPanelProp
                     {detail.items.map((item, i) => (
                       <div className="i-row" key={i}>
                         <span className="iy">{item.y}</span>
-                        <span className="it hum">{item.label[lang]}</span>
+                        <span className="it hum">
+                          {item.href ? (
+                            <a href={item.href} target="_blank" rel="noopener noreferrer">
+                              {item.label[lang]}
+                            </a>
+                          ) : (
+                            item.label[lang]
+                          )}
+                        </span>
                         {item.href && (
                           <a className="ix" href={item.href} target="_blank" rel="noopener noreferrer" aria-label="open link">
                             ↗

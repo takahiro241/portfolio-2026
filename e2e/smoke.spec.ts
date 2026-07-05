@@ -30,6 +30,9 @@ test.describe("ontology stage (desktop)", () => {
     await expect(panel).toContainText("WealthPark");
     await expect(panel).toContainText(":VPoE → :SVP → :CTO");
 
+    // instance labels themselves link out when an href exists
+    await expect(panel.locator(".i-row .it a").first()).toHaveAttribute("href", /^https?:/);
+
     // related chip navigates to another entity
     await panel.locator(".chips button").first().click();
     await expect(panel.locator(".e-uri")).not.toHaveText(":wealthpark");
