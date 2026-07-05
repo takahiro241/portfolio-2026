@@ -16,6 +16,18 @@ export function Stage({ lang }: { lang: Locale }) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [hoverId, setHoverId] = useState<string | null>(null);
   const [triples, setTriples] = useState(0);
+  const [queryFirst, setQueryFirst] = useState(false);
+
+  // On a phone, 45 nodes are noise: start filtered to one saved query and
+  // hide everything outside it (chips switch, tapping the active chip = all).
+  useEffect(() => {
+    if (!matchMedia("(max-width: 860px)").matches) return;
+    const timer = setTimeout(() => {
+      setQueryFirst(true);
+      setActiveQuery((q) => q ?? "career");
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
 
   const onCommit = useCallback((count: number) => {
     setVisibleEdges(count);
@@ -80,6 +92,7 @@ export function Stage({ lang }: { lang: Locale }) {
         <OntologyGraph
           visibleEdges={visibleEdges}
           activeQuery={activeQuery}
+          hideOffQuery={queryFirst}
           selectedId={selectedId}
           onSelect={openEntity}
           onHoverChange={setHoverId}

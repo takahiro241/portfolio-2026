@@ -562,6 +562,10 @@ body {
     display: none;
   }
   .entity {
+    /* fixed, not absolute: a translated-away absolute sheet extends the
+       page's scrollable area on iOS Safari (bottom gap + phantom scroll);
+       fixed boxes never contribute to scrollable overflow */
+    position: fixed;
     top: auto;
     left: 0;
     right: 0;

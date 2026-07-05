@@ -6,6 +6,8 @@ import { EDGES, ENTITIES, NODES, nodeById, type QueryId } from "@/data/ontology"
 interface GraphProps {
   visibleEdges: number;
   activeQuery: QueryId | null;
+  /** query-first mode (mobile): nodes outside the active query disappear instead of dimming */
+  hideOffQuery: boolean;
   selectedId: string | null;
   onSelect: (id: string | null) => void;
   onHoverChange: (id: string | null) => void;
@@ -33,12 +35,12 @@ const SHAPES: Record<string, string> = {
 /** nodes with a full story panel get the breathing halo */
 const HAS_STORY = new Set(Object.keys(ENTITIES));
 
-export function OntologyGraph({ visibleEdges, activeQuery, selectedId, onSelect, onHoverChange }: GraphProps) {
+export function OntologyGraph({ visibleEdges, activeQuery, hideOffQuery, selectedId, onSelect, onHoverChange }: GraphProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   // live prop values readable from the single mount effect
-  const propsRef = useRef({ visibleEdges, activeQuery, selectedId, onSelect, onHoverChange });
+  const propsRef = useRef({ visibleEdges, activeQuery, hideOffQuery, selectedId, onSelect, onHoverChange });
   useEffect(() => {
-    propsRef.current = { visibleEdges, activeQuery, selectedId, onSelect, onHoverChange };
+    propsRef.current = { visibleEdges, activeQuery, hideOffQuery, selectedId, onSelect, onHoverChange };
   });
 
   useEffect(() => {
@@ -202,7 +204,7 @@ export function OntologyGraph({ visibleEdges, activeQuery, selectedId, onSelect,
     }
 
     function draw(now: number) {
-      const { visibleEdges, activeQuery, selectedId } = propsRef.current;
+      const { visibleEdges, activeQuery, hideOffQuery, selectedId } = propsRef.current;
 
       // remember when each edge became visible (for the birth flash)
       if (visibleEdges > prevVisible) {
@@ -223,6 +225,7 @@ export function OntologyGraph({ visibleEdges, activeQuery, selectedId, onSelect,
         const nb = nodeById[e.o];
         const inHood = hood && focus && (e.s === focus.id || e.o === focus.id);
         const inQuery = activeQuery && na.queries.includes(activeQuery) && nb.queries.includes(activeQuery);
+        if (hideOffQuery && activeQuery && !inQuery && !inHood) continue;
         const w = e.weight ?? 1;
         // birth flash: freshly committed edges glow for a moment
         const age = bornAt[idx] >= 0 ? now - bornAt[idx] : Infinity;
@@ -267,6 +270,7 @@ export function OntologyGraph({ visibleEdges, activeQuery, selectedId, onSelect,
         const isFocus = focus === s;
         const inHood = hood?.has(s.id);
         const inQuery = activeQuery && n.queries.includes(activeQuery);
+        if (hideOffQuery && activeQuery && !inQuery && !inHood && !isFocus && s.id !== "fujii") continue;
         const lit = isFocus || inHood || (!hood && inQuery);
         const dimmed = (hood && !inHood) || (activeQuery && !inQuery && !hood);
         const r = s.id === "fujii" ? 9 : n.cls === "hobby" ? 3 : 5.5;
@@ -287,7 +291,11 @@ export function OntologyGraph({ visibleEdges, activeQuery, selectedId, onSelect,
         drawShape(s, r + (isFocus ? 2 : 0), fill, lit ? "#ffb000" : dimmed ? "#232a33" : "#4a525c");
         ctx!.fillStyle = s.id === "fujii" ? "#ffd67a" : lit ? "#e8ecf0" : dimmed ? "#2c333d" : "#727c87";
         ctx!.font = (s.id === "fujii" ? "600 12px" : "10px") + " var(--font-plex-mono), ui-monospace, monospace";
-        ctx!.fillText(n.label, s.x + r + 6, s.y + 3);
+        // flip the label to the node's left when it would run off the canvas
+        let lx = s.x + r + 6;
+        const tw = ctx!.measureText(n.label).width;
+        if (lx + tw > W - 6) lx = s.x - r - 6 - tw;
+        ctx!.fillText(n.label, lx, s.y + 3);
       }
 
       // click ripple
@@ -318,8 +326,21 @@ export function OntologyGraph({ visibleEdges, activeQuery, selectedId, onSelect,
       const r = canvas!.getBoundingClientRect();
       return { x: e.clientX - r.left, y: e.clientY - r.top };
     };
+    const pickable = (s: SimNode) => {
+      const { visibleEdges, activeQuery, hideOffQuery, selectedId } = propsRef.current;
+      if (!nodeVisible(s.id, visibleEdges)) return false;
+      if (
+        hideOffQuery &&
+        activeQuery &&
+        s.id !== "fujii" &&
+        s.id !== selectedId &&
+        !nodeById[s.id].queries.includes(activeQuery)
+      )
+        return false;
+      return true;
+    };
     const pick = (m: { x: number; y: number }) =>
-      sim.filter((s) => nodeVisible(s.id, propsRef.current.visibleEdges)).find((s) => Math.hypot(s.x - m.x, s.y - m.y) < 17);
+      sim.filter(pickable).find((s) => Math.hypot(s.x - m.x, s.y - m.y) < 17);
 
     let downAt: { x: number; y: number } | null = null;
     let downNode: SimNode | null = null;

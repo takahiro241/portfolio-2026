@@ -14,6 +14,9 @@ test.describe("ontology stage (desktop)", () => {
     await expect(page.locator("html")).toHaveAttribute("lang", "en");
     await expect(page.locator("#graph")).toBeVisible();
 
+    // desktop shows the whole graph: no saved query is preselected
+    await expect(page.locator(".queries button.on")).toHaveCount(0);
+
     // the parse log commits every triple
     await expect(page.getByTestId("triples")).toHaveText(String(EDGES.length), { timeout: 15_000 });
     expect(errors).toEqual([]);
@@ -183,6 +186,11 @@ test.describe("mobile", () => {
     await page.evaluate(() => (window as unknown as { __open: (id: string) => void }).__open("koiki"));
     await expect(page.locator(".entity.open")).toBeVisible();
     await expect(page.locator(".entity.open")).toContainText("Koiki.fm");
+  });
+
+  test("mobile starts query-first with ?career preselected", async ({ page }) => {
+    await page.goto("/en");
+    await expect(page.locator(".queries button", { hasText: "?career" })).toHaveClass(/on/);
   });
 
   test("graph seeds sanely even when the field gets its size late", async ({ page }) => {
