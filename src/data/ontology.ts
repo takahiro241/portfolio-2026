@@ -581,8 +581,8 @@ export const ENTITIES: Record<string, EntityDetail> = {
     type: "a :Hobby",
     title: { ja: "お酒", en: "Drinks" },
     desc: {
-      ja: "強いナラティブがあるわけではないかもしれません。ただ昔から飲むのが好きで、いまもよく行く飲み屋で週に数回、店主や友達と話しています。本質的には、お酒というより友達と話すことが好きなのかもしれません。そのなかで徐々に詳しくなり、いまではビール、焼酎、ジン、日本酒、ワインのどれも好きで、料理との組み合わせも楽しめるようになりました。住んできた場所の近くには思い入れのある店が多く、住む場所が変わるたびに好きな店と好きなお酒が少しずつ増えてきた、ということかなと思っています。",
-      en: "There may not be a strong narrative here. But I have always liked drinking, and a few nights a week I am at my usual bar, talking with the owner and friends. Essentially it may be less about the alcohol and more about the conversation. Along the way I got to know it anyway: beer, shochu, gin, sake, wine, all of them, and pairing them with food. Every place I have lived left me a bar I care about, so the list of favorite bars and favorite drinks just kept growing, a little at a time.",
+      ja: "昔から飲むのが好きで、いまもよく行く飲み屋で週に数回、店主や友達と話しています。本質的には、お酒というより友達と話すことが好きなのかもしれません。そのなかで徐々に詳しくなり、いまではビール、焼酎、ジン、日本酒、ワインのどれも好きで、料理との組み合わせも楽しめるようになりました。住んできた場所の近くには思い入れのある店が多く、住む場所が変わるたびに好きな店と好きなお酒が少しずつ増えてきた、ということかなと思っています。",
+      en: "I have always liked drinking, and a few nights a week I am at my usual bar, talking with the owner and friends. Essentially it may be less about the alcohol and more about the conversation. Along the way I got to know it anyway: beer, shochu, gin, sake, wine, all of them, and pairing them with food. Every place I have lived left me a bar I care about, so the list of favorite bars and favorite drinks just kept growing, a little at a time.",
     },
     meta: [
       { p: ":essence", v: "お酒というより、友達と話すこと" },
