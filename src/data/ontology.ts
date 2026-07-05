@@ -80,7 +80,7 @@ export const NODES: OntologyNode[] = [
   { id: "tus", label: ":tus", cls: "org", queries: ["career"], seed: [0.9, 0.88] },
   { id: "realestate", label: ":real-estate", cls: "domain", queries: ["career"], seed: [0.5, 0.1] },
   { id: "fintech", label: ":fintech", cls: "domain", queries: ["career"], seed: [0.74, 0.08] },
-  { id: "travel", label: ":travel", cls: "domain", queries: ["career"], seed: [0.94, 0.74] },
+  { id: "travel", label: ":travel", cls: "domain", queries: ["career", "life"], seed: [0.94, 0.74] },
   // craft
   { id: "uiux", label: ":ui-ux", cls: "domain", queries: ["craft"], seed: [0.28, 0.66] },
   { id: "llm", label: ":llm", cls: "skill", queries: ["craft", "voice"], seed: [0.4, 0.22] },
@@ -108,8 +108,10 @@ export const NODES: OntologyNode[] = [
   { id: "origins", label: ":origins", cls: "domain", queries: ["life", "craft"], seed: [0.8, 0.94] },
   { id: "tokyolocal", label: ":tokyo-as-a-local", cls: "artifact", queries: ["life", "craft"], seed: [0.72, 0.84] },
   { id: "koikiteam", label: ":koiki-team", cls: "org", queries: ["craft", "life"], seed: [0.22, 0.08] },
+  { id: "books", label: ":books", cls: "hobby", queries: ["life", "career"], seed: [0.05, 0.48] },
   { id: "basketball", label: ":basketball", cls: "hobby", queries: ["life"], seed: [0.52, 0.9] },
   { id: "cooking", label: ":cooking", cls: "hobby", queries: ["life"], seed: [0.44, 0.94] },
+  { id: "fashion", label: ":fashion", cls: "hobby", queries: ["life"], seed: [0.3, 0.94] },
   { id: "sake", label: ":sake", cls: "hobby", queries: ["life"], seed: [0.48, 0.86] },
   { id: "washoku", label: ":washoku", cls: "hobby", queries: ["life"], seed: [0.38, 0.84] },
   { id: "coffee", label: ":coffee", cls: "hobby", queries: ["life"], seed: [0.62, 0.92] },
@@ -172,7 +174,9 @@ export const EDGES: OntologyEdge[] = [
   { s: "tokyolocal", p: "about", o: "tokyo" },
   { s: "fujii", p: "coFounded", o: "koikiteam" },
   { s: "koiki", p: "namedAfter", o: "koikiteam" },
+  { s: "fujii", p: "reads", o: "books" },
   { s: "fujii", p: "plays", o: "basketball" },
+  { s: "fujii", p: "wears", o: "fashion" },
   { s: "fujii", p: "cooks", o: "cooking" },
   { s: "fujii", p: "drinks", o: "coffee" },
   { s: "fujii", p: "drinks", o: "sake" },
@@ -198,6 +202,7 @@ export const ENTITIES: Record<string, EntityDetail> = {
     },
     meta: [
       { p: ":base", v: "Tokyo, JP" },
+      { p: ":belief", v: "ものを作りながら、ビジネスを学ぶ ↗", href: "https://sizu.me/takahiro/posts/8eic27a84ni9" },
       { p: ":github", v: "github.com/taka66 ↗", href: "https://github.com/taka66" },
       { p: ":x", v: "x.com/taka_ft ↗", href: "https://x.com/taka_ft" },
       { p: ":linkedin", v: "linkedin ↗", href: "https://www.linkedin.com/in/takahiro-fujii-221a7461/" },
@@ -273,6 +278,20 @@ export const ENTITIES: Record<string, EntityDetail> = {
       { p: ":year", v: "AY2023" },
     ],
     rel: ["uiux", "illustration"],
+  },
+  travel: {
+    type: "a :Domain",
+    title: { ja: "旅行", en: "Travel" },
+    desc: {
+      ja: "仕事としては、楽天トラベルで予約システムを作っていた領域です。プライベートでは2024年に台湾、金沢、三重へ。旧ブログにはインド旅行記も残っています(→ :desi-gneer)。帰ってきた直後の和食が、いちばんおいしい。",
+      en: "Professionally, this is the domain where the Rakuten Travel booking systems were built. Privately: Taiwan, Kanazawa and Mie in 2024, and an India travel series survives on the old blog (→ :desi-gneer). The first washoku after coming home tastes best.",
+    },
+    items: [
+      { y: "2024", label: { ja: "台湾(食が最高だった)", en: "Taiwan (the food was exceptional)" } },
+      { y: "2024", label: { ja: "金沢・三重", en: "Kanazawa and Mie" } },
+      { y: "2019", label: { ja: "インド(ムンバイ、アーコラー)。旅行記は旧ブログに", en: "India (Mumbai, Akola) — the travel series lives on the old blog" } },
+    ],
+    rel: ["rakuten", "washoku", "designeer"],
   },
   tus: {
     type: "a :Organization · :University",
@@ -540,8 +559,23 @@ export const ENTITIES: Record<string, EntityDetail> = {
     meta: [
       { p: ":origin", v: "缶コーヒー(眠気覚まし)" },
       { p: ":habitat", v: "学芸大学・中目黒のカフェ" },
+      { p: ":beans", v: "Sniite" },
     ],
     rel: ["engineer", "tokyo", "tokyolocal", "cooking"],
+  },
+  fashion: {
+    type: "a :Hobby",
+    title: { ja: "ファッション", en: "Fashion" },
+    desc: {
+      ja: "年のまとめで毎年最初に書いてしまうくらいには好きです。ゆったりしたシルエットが基本で、最近はs.f.c、Graphpaper、FreshServiceあたりをよく着ています。バスケ用のBallaholicのバックパックには、道具と一緒にMacBookも入っています。",
+      en: "Fond enough of it that the yearly recaps always start here. Relaxed silhouettes as a rule: s.f.c, Graphpaper and FreshService lately. The Ballaholic backpack carries basketball gear and a MacBook side by side.",
+    },
+    meta: [
+      { p: ":brands", v: "FreshService, Graphpaper, s.f.c, Porter Classic" },
+      { p: ":kicks", v: "HOKA, ASICS, Reebok" },
+      { p: ":bag", v: "Ballaholic(バスケ道具とMacBookが同居)" },
+    ],
+    rel: ["basketball"],
   },
   sake: {
     type: "a :Hobby",
@@ -554,6 +588,10 @@ export const ENTITIES: Record<string, EntityDetail> = {
       { p: ":essence", v: "お酒というより、友達と話すこと" },
       { p: ":favorites", v: "ビール, 焼酎, ジン, 日本酒, ワイン" },
       { p: ":frequency", v: "週数回、いつもの店で" },
+    ],
+    items: [
+      { y: "2025", label: { ja: "立ち飲み屋で、友人の輪が一気に広がった", en: "A standing bar expanded the circle of friends overnight" } },
+      { y: "2023", label: { ja: "ろっかんで日本酒に開眼", en: "Rokkan opened the door to Japanese sake" } },
     ],
     rel: ["cooking", "tokyo", "washoku"],
   },
@@ -596,6 +634,22 @@ export const ENTITIES: Record<string, EntityDetail> = {
     ],
     rel: ["rakuten", "wealthpark", "talks", "sake"],
   },
+  books: {
+    type: "a :Hobby · :Influences",
+    title: { ja: "影響を受けた本", en: "Books" },
+    desc: {
+      ja: "キャリア観に響いたのはTony Fadellの『BUILD』。ほかにも組織論や会計、多様性の本まで、読んだものの一部はnoteや旧ブログに感想を残しています。",
+      en: "Tony Fadell's BUILD hit hardest for career philosophy. Org theory, accounting, diversity — some of the reading left reviews on note and the old blog.",
+    },
+    items: [
+      { y: "2023", label: { ja: "『BUILD』Tony Fadell — キャリア観に響いた", en: "BUILD (Tony Fadell) — reshaped the career philosophy" } },
+      { y: "2024", label: { ja: "『教養としての「会計」入門』", en: "Accounting as a Liberal Art" }, href: "https://note.com/takahirofujii/n/n06c63272dc95" },
+      { y: "—", label: { ja: "『多様性の科学』— エコーチェンバー現象について", en: "The Science of Diversity — on echo chambers" }, href: "https://note.com/takahirofujii/n/nbaa51fdc14a2" },
+      { y: "—", label: { ja: "『ユニコーン企業のひみつ』", en: "Unicorn Project secrets" }, href: "https://note.com/takahirofujii/n/n3b19a7920e49" },
+      { y: "2018", label: { ja: "『エンジニアリング組織論への招待』— 感想は旧ブログに", en: "An Invitation to Engineering Organization Theory — notes on the old blog" } },
+    ],
+    rel: ["reviews", "note", "designeer", "engmgmt"],
+  },
   basketball: {
     type: "a :Hobby",
     title: { ja: "バスケットボール", en: "Basketball" },
@@ -609,6 +663,7 @@ export const ENTITIES: Record<string, EntityDetail> = {
       { p: ":league", v: "関東実業団(楽天バスケ部)" },
     ],
     items: [
+      { y: "2024", label: { ja: "元同僚のチームに正式加入、大会に出場", en: "Formally joined a former colleague's team and entered tournaments" } },
       { y: "—", label: { ja: "WINX — 駒沢の仲間と作ったチームのユニフォーム(自作 → :illustration)", en: "WINX — uniform for the Komazawa street team (self-designed → :illustration)" } },
       { y: "—", label: { ja: "SUPERPOINTS — 楽天バスケ部・関東実業団リーグのユニフォーム(自作 → :illustration)", en: "SUPERPOINTS — uniform for Rakuten's club in the corporate league (self-designed → :illustration)" } },
     ],
@@ -625,6 +680,8 @@ export const ENTITIES: Record<string, EntityDetail> = {
       { p: ":origin", v: "父親へのごはん" },
       { p: ":accelerants", v: "コロナ禍, YouTube, リモートワーク" },
       { p: ":method", v: "レシピ通りに作ってから、自分なりにアレンジ" },
+      { p: ":recipes", v: "笠原将弘さんのYouTube、スパイスからのカレー" },
+      { p: ":next", v: "ビリヤニ" },
     ],
     rel: ["coffee", "sake", "washoku"],
   },
