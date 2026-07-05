@@ -320,7 +320,6 @@ export const ENTITIES: Record<string, EntityDetail> = {
     ],
     items: [
       { y: "2020", label: { ja: "小粋fm(Koiki.fm)を開始", en: "Koiki.fm launched" }, href: "https://creators.spotify.com/pod/profile/koikifm/" },
-      { y: "—", label: { ja: "note マガジン「小粋fm」(7本)", en: 'note magazine "Koiki fm" (7 posts)' } },
     ],
     rel: ["engmgmt", "illustration", "note", "koikiteam"],
   },
@@ -398,6 +397,7 @@ export const ENTITIES: Record<string, EntityDetail> = {
       { y: "2024", label: { ja: "教養としての「会計」入門", en: "Accounting as a liberal art" }, href: "https://note.com/takahirofujii/n/n06c63272dc95" },
       { y: "2023", label: { ja: "WealthParkの開発組織について(2023年)", en: "All about WealthPark Engineering (2023)" }, href: "https://note.com/takahirofujii/n/n09f2ce47e4c2" },
       { y: "2022", label: { ja: "WealthParkのエンジニア組織について(2022年版)", en: "All about WealthPark Engineering (2022)" }, href: "https://note.com/takahirofujii/n/nfa4b5a3ccb8c" },
+      { y: "—", label: { ja: "マガジン「小粋fm」(7本)", en: 'Magazine "Koiki fm" (7 posts)' } },
       { y: "—", label: { ja: "旧ブログ: Spotify Modelの虚像と実像 / VPoEとしての最初の取組 ほか", en: "Older: Spotify Model myths / First moves as VPoE, etc." } },
     ],
     rel: ["engmgmt", "koiki", "designeer"],
