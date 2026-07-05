@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { OntologyGraph } from "@/components/OntologyGraph";
 import { ParseLog } from "@/components/ParseLog";
 import { EntityPanel } from "@/components/EntityPanel";
+import { LocaleToggle } from "@/components/LocaleToggle";
 import Link from "next/link";
 import { DEFAULT_FOCUS, ENTITIES, NODES, SENTENCES, UI, nodeById, type QueryId } from "@/data/ontology";
 import type { Locale } from "@/i18n/config";
@@ -95,16 +96,7 @@ export function Stage({ lang }: { lang: Locale }) {
             <Link href={lang === "ja" ? "/story" : "/en/story"}>:profile</Link>
           </span>
           <span className="tempnote">temp 0.0 · deterministic</span>
-          <span className="lang">
-            {/* Deliberately plain <a>, not <Link>: locale switching must be a
-                full page load so the router cache and prefetch never serve a
-                stale-locale redirect (portfolio-2025 commit 917623b). */}
-            {/* eslint-disable @next/next/no-html-link-for-pages */}
-            {lang === "ja" ? <a className="on">あ</a> : <a href="/" hrefLang="ja" lang="ja">あ</a>}
-            {" / "}
-            {lang === "en" ? <a className="on">A</a> : <a href="/en" hrefLang="en" lang="en">A</a>}
-            {/* eslint-enable @next/next/no-html-link-for-pages */}
-          </span>
+          <LocaleToggle lang={lang} path="/" />
         </div>
         <div className="legend">
           {legendLine1}

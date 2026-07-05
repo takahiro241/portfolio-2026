@@ -111,6 +111,32 @@ test.describe("i18n routing", () => {
   });
 });
 
+test.describe("locale switch from an English browser", () => {
+  // Regression: without the NEXT_LOCALE cookie the proxy falls back to
+  // Accept-Language and bounces あ clicks straight back to /en.
+  test("あ switches the top page to Japanese", async ({ page }) => {
+    await page.goto("/en");
+    await page.waitForTimeout(800);
+    await page.locator('.topbar a[hreflang="ja"]').click();
+    await page.waitForLoadState();
+    await expect(page).toHaveURL("/");
+    await expect(page.locator("html")).toHaveAttribute("lang", "ja");
+  });
+
+  test("あ switches a query view to Japanese and back", async ({ page }) => {
+    await page.goto("/en/works");
+    await page.locator('.top a[hreflang="ja"]').click();
+    await page.waitForLoadState();
+    await expect(page).toHaveURL("/works");
+    await expect(page.locator("html")).toHaveAttribute("lang", "ja");
+
+    await page.locator('.top a[hreflang="en"]').click();
+    await page.waitForLoadState();
+    await expect(page).toHaveURL("/en/works");
+    await expect(page.locator("html")).toHaveAttribute("lang", "en");
+  });
+});
+
 test.describe("mobile", () => {
   test.use({ viewport: { width: 390, height: 844 } });
 

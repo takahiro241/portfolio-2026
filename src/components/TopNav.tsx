@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LocaleToggle } from "@/components/LocaleToggle";
 import type { Locale } from "@/i18n/config";
 
 interface TopNavProps {
@@ -28,12 +29,7 @@ export function TopNav({ lang, active, path }: TopNavProps) {
           :profile
         </Link>
       </nav>
-      <span className="lang">
-        {/* Plain <a>: locale switching must be a full page load (see Stage.tsx) */}
-        {lang === "ja" ? <a className="on">あ</a> : <a href={path} hrefLang="ja" lang="ja">あ</a>}
-        {" / "}
-        {lang === "en" ? <a className="on">A</a> : <a href={`/en${path}`} hrefLang="en" lang="en">A</a>}
-      </span>
+      <LocaleToggle lang={lang} path={path} />
     </div>
   );
 }
