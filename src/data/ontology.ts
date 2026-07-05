@@ -210,7 +210,7 @@ export const ENTITIES: Record<string, EntityDetail> = {
     ],
     items: [
       { y: "2023", label: { ja: "WealthPark Engineering Blog 開設", en: "Launched WealthPark Engineering Blog" }, href: "https://medium.com/wealthpark-engineering/on-starting-a-tech-blog-at-wealthpark-3bd84c46336" },
-      { y: "2022", label: { ja: "Remote Trust — RSGT2022(Matteo Carellaと共同登壇)", en: "Remote Trust — RSGT2022 (with Matteo Carella)" } },
+      { y: "2022", label: { ja: "Remote Trust - RSGT2022(Matteo Carellaと共同登壇)", en: "Remote Trust - RSGT2022 (with Matteo Carella)" }, href: "https://speakerdeck.com/taka66/remote-trust-rsgt2022-by-takahiro-fujii-matteo-carella" },
       { y: "2021", label: { ja: "グローバルなエンジニア組織を率いるVPoEの挑戦(Wantedly)", en: "Challenges of a VP of Engineering leading a global org (Wantedly)" }, href: "https://www.wantedly.com/companies/wealth-park/post_articles/364562" },
       { y: "2020", label: { ja: "VPが語る、WealthParkのプロダクト、技術、組織(Wantedly)", en: "WealthPark's Product VPs talk about products, technologies, and organization (Wantedly)" }, href: "https://www.wantedly.com/companies/wealth-park/post_articles/283428" },
     ],

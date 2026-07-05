@@ -33,9 +33,6 @@ const SHAPES: Record<string, string> = {
 /** nodes with a full story panel get the breathing halo */
 const HAS_STORY = new Set(Object.keys(ENTITIES));
 
-/** the graph introduces itself once the parse log finishes */
-const TOUR_STOPS = ["wealthpark", "koiki", "illustration"];
-
 export function OntologyGraph({ visibleEdges, activeQuery, selectedId, onSelect, onHoverChange }: GraphProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   // live prop values readable from the single mount effect
@@ -64,10 +61,6 @@ export function OntologyGraph({ visibleEdges, activeQuery, selectedId, onSelect,
     const bornAt: number[] = new Array(EDGES.length).fill(-1);
     let prevVisible = 0;
     let ripple: { x: number; y: number; t0: number } | null = null;
-    let tourId: string | null = null;
-    let tourStarted = false;
-    let tourCancelled = false;
-    const tourTimers: ReturnType<typeof setTimeout>[] = [];
 
     function resize() {
       const dpr = Math.min(devicePixelRatio || 1, 2);
@@ -153,33 +146,6 @@ export function OntologyGraph({ visibleEdges, activeQuery, selectedId, onSelect,
       return false;
     };
 
-    // ---- guided intro tour ----
-    function startTour() {
-      let i = 0;
-      const step = () => {
-        if (tourCancelled || propsRef.current.selectedId || i >= TOUR_STOPS.length) {
-          endTour();
-          return;
-        }
-        tourId = TOUR_STOPS[i++];
-        propsRef.current.onHoverChange(tourId);
-        tourTimers.push(setTimeout(step, 2100));
-      };
-      tourTimers.push(setTimeout(step, 900));
-    }
-    function endTour() {
-      if (tourId) {
-        tourId = null;
-        if (!hover) propsRef.current.onHoverChange(null);
-      }
-    }
-    function cancelTour() {
-      if (!tourCancelled) {
-        tourCancelled = true;
-        endTour();
-      }
-    }
-
     function drawShape(s: SimNode, r: number, fill: string, stroke: string) {
       const cls = nodeById[s.id].cls;
       const shape = SHAPES[cls];
@@ -216,14 +182,8 @@ export function OntologyGraph({ visibleEdges, activeQuery, selectedId, onSelect,
         for (let i = prevVisible; i < visibleEdges; i++) bornAt[i] = now;
         prevVisible = visibleEdges;
       }
-      // once the log has committed everything, the graph introduces itself
-      if (!tourStarted && !reduced && visibleEdges >= EDGES.length) {
-        tourStarted = true;
-        startTour();
-      }
-
       ctx!.clearRect(0, 0, W, H);
-      const focus = hover || (selectedId ? simById[selectedId] : null) || (tourId ? simById[tourId] : null);
+      const focus = hover || (selectedId ? simById[selectedId] : null);
       const hood = focus ? neighborhood(focus.id) : null;
 
       let k = 0;
@@ -336,7 +296,6 @@ export function OntologyGraph({ visibleEdges, activeQuery, selectedId, onSelect,
     let downNode: SimNode | null = null;
 
     const onMove = (e: PointerEvent) => {
-      cancelTour();
       const m = pos(e);
       if (dragging) {
         dragging.x = m.x;
@@ -352,7 +311,6 @@ export function OntologyGraph({ visibleEdges, activeQuery, selectedId, onSelect,
       }
     };
     const onDown = (e: PointerEvent) => {
-      cancelTour();
       const m = pos(e);
       downAt = m;
       downNode = pick(m) || null;
@@ -374,7 +332,7 @@ export function OntologyGraph({ visibleEdges, activeQuery, selectedId, onSelect,
     };
     const onLeave = () => {
       hover = null;
-      if (!tourId) propsRef.current.onHoverChange(null);
+      propsRef.current.onHoverChange(null);
     };
 
     canvas.addEventListener("pointermove", onMove);
@@ -393,7 +351,6 @@ export function OntologyGraph({ visibleEdges, activeQuery, selectedId, onSelect,
 
     return () => {
       cancelAnimationFrame(raf);
-      tourTimers.forEach(clearTimeout);
       canvas.removeEventListener("pointermove", onMove);
       canvas.removeEventListener("pointerdown", onDown);
       canvas.removeEventListener("pointerup", onUp);

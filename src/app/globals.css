@@ -506,6 +506,7 @@ body {
     width: 100%;
     height: auto;
     max-height: 34svh;
+    overflow: hidden;
   }
   .log {
     display: none;
@@ -515,6 +516,12 @@ body {
     margin-top: 8px;
     padding-top: 4px;
     min-height: 58px;
+  }
+  .focus .ft {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   .field {
     /* fill exactly what the rail leaves over — a fixed svh height left a
