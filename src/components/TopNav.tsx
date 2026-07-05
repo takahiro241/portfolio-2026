@@ -4,7 +4,7 @@ import type { Locale } from "@/i18n/config";
 
 interface TopNavProps {
   lang: Locale;
-  active: "works" | "design" | "story";
+  active: "graph" | "works" | "design" | "story";
   /** locale-less path of the current page, e.g. "/works" */
   path: string;
 }
@@ -18,7 +18,7 @@ export function TopNav({ lang, active, path }: TopNavProps) {
         takahirofujii.dev — <b>ontology.ttl</b>
       </span>
       <nav>
-        <Link href={prefix || "/"}>:fujii</Link>
+        <Link href={prefix || "/"} className={active === "graph" ? "on" : ""}>:fujii</Link>
         <Link href={`${prefix}/works`} className={active === "works" ? "on" : ""}>
           ?works
         </Link>

@@ -4,7 +4,6 @@ import { useCallback, useEffect, useState } from "react";
 import { OntologyGraph } from "@/components/OntologyGraph";
 import { ParseLog } from "@/components/ParseLog";
 import { EntityPanel } from "@/components/EntityPanel";
-import { LocaleToggle } from "@/components/LocaleToggle";
 import Link from "next/link";
 import { DEFAULT_FOCUS, ENTITIES, NODES, SENTENCES, UI, nodeById, type QueryId } from "@/data/ontology";
 import type { Locale } from "@/i18n/config";
@@ -52,8 +51,6 @@ export function Stage({ lang }: { lang: Locale }) {
     <main className="stage">
       <aside className="rail">
         <div className="head">
-          takahirofujii.dev — <b>ontology.ttl</b>
-          <br />
           <span className="who">:fujii</span> · 藤井 貴浩 · {UI.rolesLine[lang]}
           <br />
           triples <span className="stat" data-testid="triples">{triples}</span> · nodes{" "}
@@ -79,6 +76,7 @@ export function Stage({ lang }: { lang: Locale }) {
           onHoverChange={setHoverId}
         />
         <nav className="queries" aria-label="saved queries">
+          <span className="wlabel">WHERE</span>
           {QUERIES.map((q) => (
             <button
               key={q}
@@ -90,13 +88,7 @@ export function Stage({ lang }: { lang: Locale }) {
           ))}
         </nav>
         <div className="topbar">
-          <span className="pagenav">
-            <Link href={lang === "ja" ? "/works" : "/en/works"}>?works</Link>
-            <Link href={lang === "ja" ? "/design" : "/en/design"}>?design</Link>
-            <Link href={lang === "ja" ? "/story" : "/en/story"}>:profile</Link>
-          </span>
           <span className="tempnote">temp 0.0 · deterministic</span>
-          <LocaleToggle lang={lang} path="/" />
         </div>
         <div className="legend">
           {legendLine1}

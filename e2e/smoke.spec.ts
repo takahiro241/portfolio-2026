@@ -107,7 +107,7 @@ test.describe("i18n routing", () => {
   test("locale switch is a full page navigation", async ({ page }) => {
     await page.goto("/");
     await page.waitForTimeout(1200); // let any prefetch settle
-    await page.locator('.topbar a[hreflang="en"]').click();
+    await page.locator('.top a[hreflang="en"]').click();
     await page.waitForLoadState();
     await expect(page).toHaveURL("/en");
     await expect(page.locator("html")).toHaveAttribute("lang", "en");
@@ -120,7 +120,7 @@ test.describe("locale switch from an English browser", () => {
   test("あ switches the top page to Japanese", async ({ page }) => {
     await page.goto("/en");
     await page.waitForTimeout(800);
-    await page.locator('.topbar a[hreflang="ja"]').click();
+    await page.locator('.top a[hreflang="ja"]').click();
     await page.waitForLoadState();
     await expect(page).toHaveURL("/");
     await expect(page.locator("html")).toHaveAttribute("lang", "ja");

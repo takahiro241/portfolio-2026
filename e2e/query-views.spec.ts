@@ -50,7 +50,7 @@ test.describe("navigation between views", () => {
 
   test("stage links to ?works, top nav returns to :fujii, all in Japanese", async ({ page }) => {
     await page.goto("/");
-    await page.locator('.pagenav a', { hasText: "?works" }).click();
+    await page.locator('.top nav a', { hasText: "?works" }).click();
     await expect(page).toHaveURL("/works");
     await expect(page.locator(".qsub")).toContainText("講演");
 

@@ -33,9 +33,15 @@ body {
 }
 
 /* ============ stage layout ============ */
+.gshell {
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
 .stage {
   position: relative;
-  height: 100svh;
+  flex: 1;
+  min-height: 0;
   display: flex;
 }
 
@@ -181,19 +187,6 @@ body {
   color: var(--dim);
   z-index: 3;
 }
-.topbar .pagenav {
-  display: flex;
-  gap: 14px;
-}
-.topbar .pagenav a {
-  color: var(--dim);
-  text-decoration: none;
-}
-.topbar .pagenav a:hover,
-.topbar .pagenav a:focus-visible {
-  color: var(--amber);
-  outline: none;
-}
 .topbar .lang a {
   color: var(--dim);
   text-decoration: none;
@@ -225,6 +218,13 @@ body {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+}
+.queries .wlabel {
+  font-size: 10px;
+  color: var(--faint);
+  letter-spacing: 0.14em;
+  align-self: center;
+  margin-right: 2px;
 }
 .queries button {
   font-family: var(--mono);
