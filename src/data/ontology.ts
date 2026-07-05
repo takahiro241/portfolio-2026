@@ -117,11 +117,12 @@ export const EDGES: OntologyEdge[] = [
   { s: "fujii", p: "holdsRole", o: "cto" },
   { s: "fujii", p: "heldRole", o: "svp" },
   { s: "fujii", p: "heldRole", o: "vpoe" },
-  { s: "fujii", p: "heldRole", o: "engineer" },
+  { s: "fujii", p: "holdsRole", o: "engineer" },
   { s: "cto", p: "at", o: "wealthpark" },
   { s: "svp", p: "at", o: "wealthpark" },
   { s: "vpoe", p: "at", o: "wealthpark" },
   { s: "engineer", p: "at", o: "rakuten" },
+  { s: "engineer", p: "at", o: "wealthpark" },
   { s: "fujii", p: "trainedAt", o: "goodpatch" },
   { s: "fujii", p: "taught", o: "afc" },
   { s: "wealthpark", p: "inDomain", o: "realestate" },
@@ -597,7 +598,7 @@ export const SENTENCES: Record<string, L10n> = {
   cto: { ja: "2024年4月からWealthParkの<b>CTO</b>。", en: "<b>CTO</b> at WealthPark since April 2024." },
   svp: { ja: "<b>SVP</b>(2023.03–2024.04)— VPoEとCTOの間の一年。", en: "<b>SVP</b> (2023.03–2024.04) — the year between VPoE and CTO." },
   vpoe: { ja: "<b>VPoE</b>(2020.04–2023.03)として多国籍組織を構築。", en: "Built a multinational org as <b>VPoE</b> (2020.04–2023.03)." },
-  engineer: { ja: "フルスタック<b>エンジニア</b>、EMとして楽天トラベル(2010-2019)。", en: "Full-stack <b>engineer</b> and EM at Rakuten Travel (2010-2019)." },
+  engineer: { ja: "楽天(2010-2019)で始まり、WealthParkでもいまも続く<b>エンジニア</b>。CTOになっても、LLMを駆使して手を動かしています。", en: "Started at Rakuten (2010-2019) and still going at WealthPark: an <b>engineer</b> who keeps building hands-on with LLMs, CTO title notwithstanding." },
 };
 
 export const DEFAULT_FOCUS: L10n = {
@@ -705,7 +706,7 @@ export const PROFILE_SECTIONS: { title: L10n; entityIds: string[] }[] = [
 
 export const LOG_LINES: LogLine[] = [
   { s: ":fujii", p: "a", o: "foaf:Person, :ProductEngineer", ghosts: [":Designer", ":CTO"] },
-  { s: ":fujii", p: ":holdsRole", o: ":CTO", ghosts: [":SVP", ":VPoE"] },
+  { s: ":fujii", p: ":holdsRole", o: ":CTO, :Engineer", ghosts: [":SVP", ":VPoE"] },
   { s: ":fujii", p: ":rootedIn", o: ":origins", ghosts: [":win95", ":html"] },
   { s: ":CTO", p: ":at", o: ":wealthpark" },
   { s: ":fujii", p: ":taught", o: ":afc", ghosts: [":web制作"] },
