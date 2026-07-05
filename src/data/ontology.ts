@@ -578,8 +578,8 @@ export const ENTITIES: Record<string, EntityDetail> = {
     type: "a :Hobby",
     title: { ja: "バスケットボール", en: "Basketball" },
     desc: {
-      ja: "小学校のとき、先輩に誘われて始めました。転機は中学時代、夏に部活が少なかったので駒沢公園のストリートコートで遊ぶようになったこと。ここで出会った先輩や仲間とは、20年以上経ったいまも一緒にバスケをしています。仲間とチームを作って大会に出て、そのユニフォームは自分でデザインしました。高校・大学でも続け、楽天ではバスケ部に入り関東実業団リーグにも参加。いまは会社の仲間や昔の仲間と、趣味とエクササイズとして楽しんでいます。",
-      en: "It started in elementary school when an older kid invited me in. The turning point came in junior high: my school had few summer clubs, so I started playing on the street courts of Komazawa Park. The friends I met there are still my teammates more than twenty years later. We formed a team, entered tournaments, and I designed our uniforms. I kept playing through high school and university, then joined Rakuten's basketball club and played in the Kanto corporate league. These days it is hobby and exercise, with colleagues and old friends.",
+      ja: "小学校のとき、先輩に誘われて始めました。転機は中学時代、夏に部活が少なかったので駒沢公園のストリートコートで遊ぶようになったこと。ここで出会った先輩や仲間とは、20年以上経ったいまも一緒にバスケをしています。仲間とチームを作って大会に出て、そのユニフォームは自分でデザインしたりもしました。いまは仲間と、趣味とエクササイズとしてバスケを楽しんでいます。",
+      en: "It started in elementary school when an older kid invited me in. The turning point came in junior high: my school had few summer clubs, so I started playing on the street courts of Komazawa Park. The friends I met there are still my teammates more than twenty years later. We formed a team, entered tournaments, and I sometimes designed our uniforms too. These days basketball is hobby and exercise, with friends.",
     },
     meta: [
       { p: ":since", v: "小学校 / elementary school" },
