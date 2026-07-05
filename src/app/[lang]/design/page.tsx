@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { TopNav } from "@/components/TopNav";
-import { ENTITIES, UI } from "@/data/ontology";
+import { ENTITIES } from "@/data/ontology";
 import { designGallery } from "@/lib/queries";
 import { toLocale } from "@/i18n/config";
 
@@ -39,7 +39,6 @@ export default async function DesignPage(props: { params: Promise<{ lang: string
         </div>
 
         <h1 className="qtitle hum">Design</h1>
-        <p className="qsub hum">{UI.designSub[lang]}</p>
 
         <div className="qgrid">
           {gallery.map((g) => (

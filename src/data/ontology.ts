@@ -395,7 +395,7 @@ export const ENTITIES: Record<string, EntityDetail> = {
     meta: [
       { p: ":since", v: "大学2年(Creative Suite購入)" },
       { p: ":tool", v: "Illustrator → iPad, Figma" },
-      { p: ":count", v: "16" },
+      { p: ":count", v: "14" },
     ],
     gallery: [
       { src: "/design/fuji.webp", caption: { ja: "富士山 — 名前にも入っているFuji", en: "Mt. Fuji — it is in the name" } },
@@ -408,9 +408,7 @@ export const ENTITIES: Record<string, EntityDetail> = {
       { src: "/design/engineer.webp", caption: { ja: "とあるエンジニア", en: "A certain engineer" } },
       { src: "/design/lady.webp", caption: { ja: "Lady", en: "Lady" } },
       { src: "/design/movie_director.webp", caption: { ja: "映画監督", en: "A film director" } },
-      { src: "/design/nabnab.png", caption: { ja: "Lineスタンプ(Web Engineer)", en: "Line stickers for web engineers" } },
       { src: "/design/tokyoflower.png", caption: { ja: "東京笑花 ロゴ", en: "Tokyo-Shoka logo" } },
-      { src: "/design/webhack.png", caption: { ja: "Speaker Card", en: "Speaker card" } },
       { src: "/design/winx.png", caption: { ja: "WINX — 駒沢ストリートチームのユニフォーム", en: "WINX — uniform for the Komazawa street team" } },
       { src: "/design/superpoints.png", caption: { ja: "SUPERPOINTS — 楽天バスケ部(実業団)のユニフォーム", en: "SUPERPOINTS — uniform for Rakuten's corporate-league club" } },
       { src: "/design/business-card.png", caption: { ja: "名刺", en: "Business cards" } },
@@ -652,10 +650,6 @@ export const UI = {
     en: "Every bold term in this article is a node in the graph — the same relations, poured into prose.",
   },
   openInGraph: { ja: "グラフで開く", en: "open in graph" },
-  designSub: {
-    ja: "幼少期から絵が得意だったわけではありません。大学2年、インターン代でCreative Suiteを買ったところから始まった作品集です。",
-    en: "I was never the kid who could draw. This collection started with the Creative Suite bought on internship earnings in my second year of university.",
-  },
 } satisfies Record<string, L10n>;
 
 

@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { EDGES } from "../src/data/ontology";
+import { EDGES, ENTITIES } from "../src/data/ontology";
 
 test.describe("ontology stage (desktop)", () => {
   test("loads, parses the full ontology, and reports no console errors", async ({ page }) => {
@@ -47,7 +47,7 @@ test.describe("ontology stage (desktop)", () => {
     await expect(page.getByTestId("triples")).toHaveText(String(EDGES.length), { timeout: 15_000 });
     await page.evaluate(() => (window as unknown as { __open: (id: string) => void }).__open("illustration"));
     const images = page.locator(".gallery img");
-    await expect(images).toHaveCount(16);
+    await expect(images).toHaveCount((ENTITIES.illustration.gallery ?? []).length);
     for (const img of await images.all()) {
       await expect
         .poll(() => img.evaluate((el) => (el as HTMLImageElement).naturalWidth))
