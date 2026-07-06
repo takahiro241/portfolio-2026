@@ -102,6 +102,7 @@ export function Stage({ lang }: { lang: Locale }) {
           activeQuery={activeQuery}
           hideOffQuery={queryFirst}
           pulse={pulse}
+          heartbeat={queryFirst}
           selectedId={selectedId}
           onSelect={openEntity}
           onHoverChange={setHoverId}

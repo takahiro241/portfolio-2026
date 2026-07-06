@@ -10,6 +10,8 @@ interface GraphProps {
   hideOffQuery: boolean;
   /** chip hover/activation signal: member nodes answer with one ripple in the query's hue */
   pulse: { q: QueryId; stamp: number } | null;
+  /** ambient mode (mobile): every node ripples on its own slow heartbeat */
+  heartbeat: boolean;
   selectedId: string | null;
   onSelect: (id: string | null) => void;
   onHoverChange: (id: string | null) => void;
@@ -49,15 +51,34 @@ export function OntologyGraph({
   activeQuery,
   hideOffQuery,
   pulse,
+  heartbeat,
   selectedId,
   onSelect,
   onHoverChange,
 }: GraphProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   // live prop values readable from the single mount effect
-  const propsRef = useRef({ visibleEdges, activeQuery, hideOffQuery, pulse, selectedId, onSelect, onHoverChange });
+  const propsRef = useRef({
+    visibleEdges,
+    activeQuery,
+    hideOffQuery,
+    pulse,
+    heartbeat,
+    selectedId,
+    onSelect,
+    onHoverChange,
+  });
   useEffect(() => {
-    propsRef.current = { visibleEdges, activeQuery, hideOffQuery, pulse, selectedId, onSelect, onHoverChange };
+    propsRef.current = {
+      visibleEdges,
+      activeQuery,
+      hideOffQuery,
+      pulse,
+      heartbeat,
+      selectedId,
+      onSelect,
+      onHoverChange,
+    };
   });
 
   useEffect(() => {
@@ -387,6 +408,24 @@ export function OntologyGraph({
           ctx!.strokeStyle = `rgba(${QUERY_HUES[pulseAnim.q]},${0.5 * (1 - pulseK)})`;
           ctx!.lineWidth = 1.4;
           ctx!.stroke();
+        }
+
+        // ambient heartbeat (mobile): each node beats on its own slow clock —
+        // random-feeling offsets, steady per-node interval, ~0-2 rings at once
+        if (propsRef.current.heartbeat && !reduced && !dimmed) {
+          const h = (s.id.charCodeAt(0) * 31 + s.id.charCodeAt(s.id.length - 1) * 7 + s.id.length * 131) % 100;
+          const period = 11 + (h / 100) * 6; // 11-17s per node
+          const local = (now / 1000 + (h * 977) / 100) % period;
+          if (local < 0.8) {
+            const k = local / 0.8;
+            const beat = Math.floor((now / 1000 + (h * 977) / 100) / period);
+            const hue = QUERY_HUES[n.queries[beat % n.queries.length]];
+            ctx!.beginPath();
+            ctx!.arc(s.x, s.y, r + 6 + k * 16, 0, Math.PI * 2);
+            ctx!.strokeStyle = `rgba(${hue},${0.34 * (1 - k)})`;
+            ctx!.lineWidth = 1.2;
+            ctx!.stroke();
+          }
         }
 
         const fill = s.id === "fujii" || lit ? "#ffb000" : dimmed ? "#232a33" : "#4a525c";
