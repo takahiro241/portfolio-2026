@@ -22,6 +22,13 @@ interface SimNode {
   placed: boolean;
 }
 
+interface Rect {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
+
 const SHAPES: Record<string, string> = {
   person: "disc",
   role: "disc",
@@ -63,6 +70,10 @@ export function OntologyGraph({ visibleEdges, activeQuery, hideOffQuery, selecte
     const bornAt: number[] = new Array(EDGES.length).fill(-1);
     let prevVisible = 0;
     let ripple: { x: number; y: number; t0: number } | null = null;
+
+    // label layout state (slot memory keeps labels from flickering)
+    const labelSlots: Record<string, number> = {};
+    let labelRects: Record<string, Rect> = {};
 
     // ---- query-first filtering: the visible subset re-lays itself out ----
     const hiddenByFilter = (id: string) => {
@@ -303,6 +314,7 @@ export function OntologyGraph({ visibleEdges, activeQuery, hideOffQuery, selecte
         }
       }
 
+      const drawn: { s: SimNode; r: number; lit: boolean; dimmed: boolean }[] = [];
       for (const s of sim) {
         if (!nodeVisible(s.id, visibleEdges)) continue;
         const n = nodeById[s.id];
@@ -310,8 +322,8 @@ export function OntologyGraph({ visibleEdges, activeQuery, hideOffQuery, selecte
         const inHood = hood?.has(s.id);
         const inQuery = activeQuery && n.queries.includes(activeQuery);
         if (hideOffQuery && activeQuery && !inQuery && !inHood && !isFocus && s.id !== "fujii") continue;
-        const lit = isFocus || inHood || (!hood && inQuery);
-        const dimmed = (hood && !inHood) || (activeQuery && !inQuery && !hood);
+        const lit = Boolean(isFocus || inHood || (!hood && inQuery));
+        const dimmed = Boolean((hood && !inHood) || (activeQuery && !inQuery && !hood));
         const r = s.id === "fujii" ? 9 : n.cls === "hobby" ? 3 : 5.5;
 
         // breathing halo on story nodes: "there is something to open here"
@@ -328,13 +340,60 @@ export function OntologyGraph({ visibleEdges, activeQuery, hideOffQuery, selecte
 
         const fill = s.id === "fujii" || lit ? "#ffb000" : dimmed ? "#232a33" : "#4a525c";
         drawShape(s, r + (isFocus ? 2 : 0), fill, lit ? "#ffb000" : dimmed ? "#232a33" : "#4a525c");
-        ctx!.fillStyle = s.id === "fujii" ? "#ffd67a" : lit ? "#e8ecf0" : dimmed ? "#2c333d" : "#727c87";
-        ctx!.font = (s.id === "fujii" ? "600 12px" : "10px") + " var(--font-plex-mono), ui-monospace, monospace";
-        // flip the label to the node's left when it would run off the canvas
-        let lx = s.x + r + 6;
+        drawn.push({ s, r, lit, dimmed });
+      }
+
+      // ---- label pass with collision avoidance ----
+      // every marker is an obstacle; each label tries 6 slots around its
+      // node (right/left x mid/up/down) and keeps its previous slot when
+      // that slot is still clean, so labels don't flicker between frames
+      const obstacles: Rect[] = drawn.map((d) => ({
+        x: d.s.x - d.r - 2,
+        y: d.s.y - d.r - 2,
+        w: (d.r + 2) * 2,
+        h: (d.r + 2) * 2,
+      }));
+      labelRects = {};
+      for (const d of drawn) {
+        const n = nodeById[d.s.id];
+        const isFujii = d.s.id === "fujii";
+        ctx!.font = (isFujii ? "600 12px" : "10px") + " var(--font-plex-mono), ui-monospace, monospace";
         const tw = ctx!.measureText(n.label).width;
-        if (lx + tw > W - 6) lx = s.x - r - 6 - tw;
-        ctx!.fillText(n.label, lx, s.y + 3);
+        const lh = isFujii ? 13 : 11;
+        const rr = d.r + 4;
+        const slotRect = (slot: number): Rect => {
+          const right = slot % 2 === 0;
+          const x = right ? d.s.x + rr + 3 : d.s.x - rr - 3 - tw;
+          const y = slot < 2 ? d.s.y - lh / 2 : slot < 4 ? d.s.y - lh - rr : d.s.y + rr;
+          return { x, y, w: tw, h: lh };
+        };
+        const order = [labelSlots[d.s.id] ?? 0, 0, 1, 2, 3, 4, 5].filter((v, i, a) => a.indexOf(v) === i);
+        let best: Rect = slotRect(order[0]);
+        let bestSlot = order[0];
+        let bestScore = Infinity;
+        for (const slot of order) {
+          const rect = slotRect(slot);
+          let score = 0;
+          if (rect.x < 2) score += (2 - rect.x) * lh;
+          if (rect.x + rect.w > W - 2) score += (rect.x + rect.w - W + 2) * lh;
+          if (rect.y < 2 || rect.y + rect.h > H - 2) score += 400;
+          for (const o of obstacles) {
+            score +=
+              Math.max(0, Math.min(rect.x + rect.w, o.x + o.w) - Math.max(rect.x, o.x)) *
+              Math.max(0, Math.min(rect.y + rect.h, o.y + o.h) - Math.max(rect.y, o.y));
+          }
+          if (score < bestScore) {
+            bestScore = score;
+            best = rect;
+            bestSlot = slot;
+          }
+          if (score === 0) break;
+        }
+        labelSlots[d.s.id] = bestSlot;
+        obstacles.push(best);
+        labelRects[d.s.id] = best;
+        ctx!.fillStyle = isFujii ? "#ffd67a" : d.lit ? "#e8ecf0" : d.dimmed ? "#2c333d" : "#727c87";
+        ctx!.fillText(n.label, best.x, best.y + lh - 3);
       }
 
       // click ripple
@@ -441,6 +500,7 @@ export function OntologyGraph({ visibleEdges, activeQuery, hideOffQuery, selecte
       w: W,
       h: H,
       nodes: sim.map((s) => ({ id: s.id, x: s.x, y: s.y, vx: s.vx, vy: s.vy, hidden: hiddenByFilter(s.id) })),
+      labels: labelRects,
     });
 
     applySize();

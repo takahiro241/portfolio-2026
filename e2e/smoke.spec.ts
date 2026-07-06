@@ -203,7 +203,13 @@ test.describe("mobile", () => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.waitForTimeout(1500);
 
-    type G = { w: number; h: number; nodes: { x: number; y: number; vx: number; vy: number; hidden: boolean }[] };
+    type Rect = { x: number; y: number; w: number; h: number };
+    type G = {
+      w: number;
+      h: number;
+      nodes: { id: string; x: number; y: number; vx: number; vy: number; hidden: boolean }[];
+      labels: Record<string, Rect>;
+    };
     const g = await page.evaluate(() => (window as unknown as { __graph: () => G }).__graph());
     expect(g.w).toBeGreaterThan(200);
     expect(g.h).toBeGreaterThan(200);
@@ -223,5 +229,20 @@ test.describe("mobile", () => {
         if (Math.hypot(shown[i].x - shown[j].x, shown[i].y - shown[j].y) < 6) overlapping++;
       }
     expect(overlapping).toBe(0);
+
+    // labels stay legible: no two visible labels may mash together
+    const rects = shown.map((n) => g.labels[n.id]).filter(Boolean);
+    expect(rects.length).toBe(shown.length);
+    let mashed = 0;
+    for (let i = 0; i < rects.length; i++)
+      for (let j = i + 1; j < rects.length; j++) {
+        const a = rects[i];
+        const b = rects[j];
+        const ov =
+          Math.max(0, Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x)) *
+          Math.max(0, Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y));
+        if (ov > 0.4 * Math.min(a.w * a.h, b.w * b.h)) mashed++;
+      }
+    expect(mashed).toBe(0);
   });
 });
