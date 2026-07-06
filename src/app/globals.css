@@ -534,20 +534,11 @@ body {
     margin-top: 12px;
     padding: 10px 14px;
   }
-  .log {
-    display: none;
-  }
+  .log,
   .focus {
-    border-top: none;
-    margin-top: 8px;
-    padding-top: 4px;
-    min-height: 52px;
-  }
-  .focus .ft {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    /* hover translation is a desktop affordance — on a phone the panel
+       opens directly, so the FOCUS hint gives its space to the graph */
+    display: none;
   }
   .field {
     /* fill exactly what the rail leaves over — a fixed svh height left a
