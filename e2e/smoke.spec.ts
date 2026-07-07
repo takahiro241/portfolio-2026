@@ -67,9 +67,9 @@ test.describe("ontology stage (desktop)", () => {
   });
 });
 
-test("full profile CTA leads to the story renderer and links back into the graph", async ({ page }) => {
+test("the :profile nav leads to the story renderer and links back into the graph", async ({ page }) => {
   await page.goto("/en");
-  await page.getByTestId("profile-cta").click();
+  await page.locator(".top nav a", { hasText: ":profile" }).click();
   await expect(page).toHaveURL("/en/story");
   await expect(page.locator(".s-title")).toHaveText("Takahiro Fujii");
   await expect(page.locator(".story")).toContainText("Career");
@@ -91,10 +91,9 @@ test.describe("japanese locale", () => {
 
   test("renders localized UI and the Japanese story", async ({ page }) => {
     await page.goto("/");
-    await expect(page.getByTestId("profile-cta")).toContainText("プロフィール全文");
     await expect(page.locator(".rail .head")).toContainText("プロダクトエンジニア");
 
-    await page.getByTestId("profile-cta").click();
+    await page.locator(".top nav a", { hasText: ":profile" }).click();
     await expect(page).toHaveURL("/story");
     await expect(page.locator(".s-title")).toHaveText("藤井 貴浩");
     await expect(page.locator(".story")).toContainText("経歴");

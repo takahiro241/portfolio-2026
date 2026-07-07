@@ -4,7 +4,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { OntologyGraph } from "@/components/OntologyGraph";
 import { ParseLog } from "@/components/ParseLog";
 import { EntityPanel } from "@/components/EntityPanel";
-import Link from "next/link";
 import { DEFAULT_FOCUS, ENTITIES, NODES, QUERY_HUES, SENTENCES, UI, nodeById, type QueryId } from "@/data/ontology";
 import type { Locale } from "@/i18n/config";
 
@@ -85,9 +84,6 @@ export function Stage({ lang }: { lang: Locale }) {
               </a>
             ))}
         </div>
-        <Link className="profile-cta" href={lang === "ja" ? "/story" : "/en/story"} data-testid="profile-cta">
-          {UI.profileButton[lang]} <span aria-hidden="true">▸</span>
-        </Link>
         <ParseLog onCommit={onCommit} />
         <div className="focus">
           <div className="fp">{UI.focusLabel[lang]}</div>

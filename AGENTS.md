@@ -16,4 +16,4 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - 主体を明示する(false agency を作らない)
 - 中間温度の表現を混ぜ、全文をキメ台詞で終わらせない
 
-E2E が日本語文言に依存しているため(「プロフィール全文」「プロダクトエンジニア」「経歴」など)、該当文字列を変える場合は e2e/smoke.spec.ts も更新する。
+E2E が日本語文言に依存しているため(「プロダクトエンジニア」「経歴」「講演」など)、該当文字列を変える場合は e2e/smoke.spec.ts と e2e/query-views.spec.ts も更新する。

@@ -786,8 +786,8 @@ export const SENTENCES: Record<string, L10n> = {
 };
 
 export const DEFAULT_FOCUS: L10n = {
-  ja: "ノードに触れると翻訳、クリックで詳細。全体像は「プロフィール全文」からどうぞ。",
-  en: "Hover to translate a triple; click for details — or read the full profile.",
+  ja: "ノードに触れると翻訳、クリックで詳細。全体像は :profile からどうぞ。",
+  en: "Hover to translate a triple; click for details — or open :profile for the whole story.",
 };
 
 /** localized UI strings (everything visible outside the ontology data itself) */

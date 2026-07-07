@@ -64,6 +64,6 @@ test.describe("navigation between views", () => {
 
     await page.locator(".top nav a", { hasText: ":fujii" }).click();
     await expect(page).toHaveURL("/");
-    await expect(page.getByTestId("profile-cta")).toBeVisible();
+    await expect(page.locator("#graph")).toBeVisible();
   });
 });
