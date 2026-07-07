@@ -71,9 +71,11 @@ export function Stage({ lang }: { lang: Locale }) {
       <aside className="rail">
         <div className="head">
           <span className="who">:fujii</span> · {ENTITIES.fujii.title[lang]} · {UI.rolesLine[lang]}
-          <br />
-          triples <span className="stat" data-testid="triples">{triples}</span> · nodes{" "}
-          <span className="stat">{NODES.length}</span> · lang <span className="stat">{lang}</span>
+          <span className="head-stats">
+            <br />
+            triples <span className="stat" data-testid="triples">{triples}</span> · nodes{" "}
+            <span className="stat">{NODES.length}</span>
+          </span>
         </div>
         <div className="head-links">
           {(ENTITIES.fujii.meta ?? [])

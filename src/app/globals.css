@@ -535,9 +535,11 @@ body {
     padding: 10px 14px;
   }
   .log,
-  .focus {
+  .focus,
+  .head-stats {
     /* hover translation is a desktop affordance — on a phone the panel
-       opens directly, so the FOCUS hint gives its space to the graph */
+       opens directly, so the FOCUS hint gives its space to the graph;
+       the triples/nodes stats lose their parse-log context here too */
     display: none;
   }
   .field {
