@@ -15,6 +15,7 @@ import {
 } from "@/data/ontology";
 
 interface GraphProps {
+  lang: "ja" | "en";
   visibleEdges: number;
   activeQuery: QueryId | null;
   /** query-first mode (mobile): nodes outside the active query disappear instead of dimming */
@@ -58,6 +59,7 @@ const SHAPES: Record<string, string> = {
 const HAS_STORY = new Set(Object.keys(ENTITIES));
 
 export function OntologyGraph({
+  lang,
   visibleEdges,
   activeQuery,
   hideOffQuery,
@@ -70,6 +72,7 @@ export function OntologyGraph({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   // live prop values readable from the single mount effect
   const propsRef = useRef({
+    lang,
     visibleEdges,
     activeQuery,
     hideOffQuery,
@@ -81,6 +84,7 @@ export function OntologyGraph({
   });
   useEffect(() => {
     propsRef.current = {
+      lang,
       visibleEdges,
       activeQuery,
       hideOffQuery,
@@ -623,17 +627,27 @@ export function OntologyGraph({
         ctx!.fillText(n.label, best.x, best.y + lh - 3);
       }
 
-      // story caption: the triple currently being spoken, bottom center
+      // story caption: the triple spoken as a sentence, the raw triple beneath
       if (storyState) {
         const chain = STORIES[storyState.idx];
         const st = chain.steps[Math.min(storyState.step, chain.steps.length - 1)];
-        const cap = `${nodeById[st.s].label} :${st.p} ${nodeById[st.o].label} .`;
-        ctx!.font = "10px var(--font-plex-mono), ui-monospace, monospace";
-        const tw = ctx!.measureText(cap).width;
-        ctx!.fillStyle = "rgba(14,17,22,0.78)";
-        ctx!.fillRect(W / 2 - tw / 2 - 10, H - 30, tw + 20, 20);
-        ctx!.fillStyle = "rgba(255,214,122,0.9)";
-        ctx!.fillText(cap, W / 2 - tw / 2, H - 17);
+        const sentence = st.cap[propsRef.current.lang];
+        const triple = `${nodeById[st.s].label} :${st.p} ${nodeById[st.o].label} .`;
+        const humFont = "600 11.5px -apple-system, 'Hiragino Sans', system-ui, sans-serif";
+        const monoFont = "9px ui-monospace, SFMono-Regular, Menlo, monospace";
+        ctx!.font = humFont;
+        const sw = ctx!.measureText(sentence).width;
+        ctx!.font = monoFont;
+        const tw = ctx!.measureText(triple).width;
+        const bw = Math.max(sw, tw) + 24;
+        ctx!.fillStyle = "rgba(14,17,22,0.82)";
+        ctx!.fillRect(W / 2 - bw / 2, H - 48, bw, 38);
+        ctx!.font = humFont;
+        ctx!.fillStyle = "#d9dee4";
+        ctx!.fillText(sentence, W / 2 - sw / 2, H - 32);
+        ctx!.font = monoFont;
+        ctx!.fillStyle = "rgba(255,214,122,0.7)";
+        ctx!.fillText(triple, W / 2 - tw / 2, H - 17);
       }
 
       // click ripple

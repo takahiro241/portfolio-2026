@@ -94,6 +94,7 @@ export function Stage({ lang }: { lang: Locale }) {
 
       <section className="field">
         <OntologyGraph
+          lang={lang}
           visibleEdges={visibleEdges}
           activeQuery={activeQuery}
           hideOffQuery={queryFirst}

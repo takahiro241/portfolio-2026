@@ -29,6 +29,8 @@ export interface StoryStep {
   o: string;
   /** traverse the edge object→subject (the narrative flows against the arrow) */
   rev?: boolean;
+  /** the triple spoken as a human sentence */
+  cap: L10n;
 }
 
 export const STORIES: { id: string; steps: StoryStep[] }[] = [
@@ -36,37 +38,37 @@ export const STORIES: { id: string; steps: StoryStep[] }[] = [
     // あゆみ: the word processor at home leads, step by step, to LLM work
     id: "walk",
     steps: [
-      { s: "fujii", p: "rootedIn", o: "origins" },
-      { s: "origins", p: "fueled", o: "engineer" },
-      { s: "engineer", p: "at", o: "rakuten" },
-      { s: "em", p: "at", o: "rakuten", rev: true },
-      { s: "em", p: "involves", o: "engmgmt" },
-      { s: "vpoe", p: "involves", o: "engmgmt", rev: true },
-      { s: "vpoe", p: "at", o: "wealthpark" },
-      { s: "cto", p: "at", o: "wealthpark", rev: true },
-      { s: "cto", p: "involves", o: "llm" },
+      { s: "fujii", p: "rootedIn", o: "origins", cap: { ja: "はじまりは、父親のワープロと教室のMacintosh。", en: "It starts with a word processor at home and two classroom Macs." } },
+      { s: "origins", p: "fueled", o: "engineer", cap: { ja: "その原体験が、エンジニアを育てた。", en: "That origin grew into an engineer." } },
+      { s: "engineer", p: "at", o: "rakuten", cap: { ja: "キャリアの入り口は楽天トラベル。", en: "The career began at Rakuten Travel." } },
+      { s: "em", p: "at", o: "rakuten", rev: true, cap: { ja: "2014年からはエンジニアとEMを兼務。", en: "From 2014, engineer and manager at once." } },
+      { s: "em", p: "involves", o: "engmgmt", cap: { ja: "マネジメントという仕事が、ここから始まる。", en: "Engineering management starts here." } },
+      { s: "vpoe", p: "involves", o: "engmgmt", rev: true, cap: { ja: "その実務が、VPoEという役割につながった。", en: "That practice led to the VPoE role." } },
+      { s: "vpoe", p: "at", o: "wealthpark", cap: { ja: "2020年、WealthParkで多国籍組織を築く。", en: "2020: building a multinational org at WealthPark." } },
+      { s: "cto", p: "at", o: "wealthpark", rev: true, cap: { ja: "2024年、CTOに就任。", en: "2024: appointed CTO." } },
+      { s: "cto", p: "involves", o: "llm", cap: { ja: "いまもLLMを駆使して、手を動かしている。", en: "Still hands-on, now with LLMs." } },
     ],
   },
   {
     // 描くこと: one Adobe suite, bought with intern pay, crosses three genres
     id: "draws",
     steps: [
-      { s: "fujii", p: "rootedIn", o: "origins" },
-      { s: "illustration", p: "rootedIn", o: "origins", rev: true },
-      { s: "illustration", p: "for", o: "basketball" },
-      { s: "illustration", p: "brands", o: "koiki" },
-      { s: "fujii", p: "coHosts", o: "koiki", rev: true },
+      { s: "fujii", p: "rootedIn", o: "origins", cap: { ja: "大学時代、インターン代でAdobe一式を買った。", en: "In college, intern pay bought the full Adobe suite." } },
+      { s: "illustration", p: "rootedIn", o: "origins", rev: true, cap: { ja: "描くことは、そこから始まった。", en: "Drawing grew out of that." } },
+      { s: "illustration", p: "for", o: "basketball", cap: { ja: "バスケのユニフォームは自作。", en: "The basketball uniforms: self-made." } },
+      { s: "illustration", p: "brands", o: "koiki", cap: { ja: "小粋fmのロゴも、同じ手から。", en: "The Koiki.fm logo, drawn by the same hand." } },
+      { s: "fujii", p: "coHosts", o: "koiki", rev: true, cap: { ja: "そのPodcastを、いまも2人で続けている。", en: "That podcast is still running, two hosts strong." } },
     ],
   },
   {
     // 環: CTO work becomes seminars for the very domain the company serves
     id: "loop",
     steps: [
-      { s: "cto", p: "involves", o: "llm" },
-      { s: "seminars", p: "about", o: "llm", rev: true },
-      { s: "seminars", p: "for", o: "realestate" },
-      { s: "wealthpark", p: "inDomain", o: "realestate", rev: true },
-      { s: "cto", p: "at", o: "wealthpark", rev: true },
+      { s: "cto", p: "involves", o: "llm", cap: { ja: "CTOの仕事には、LLMの実務がある。", en: "CTO work includes hands-on LLM practice." } },
+      { s: "seminars", p: "about", o: "llm", rev: true, cap: { ja: "その実務が、セミナー登壇の題材になる。", en: "That practice becomes seminar material." } },
+      { s: "seminars", p: "for", o: "realestate", cap: { ja: "届ける先は、不動産業界。", en: "The audience: the real-estate industry." } },
+      { s: "wealthpark", p: "inDomain", o: "realestate", rev: true, cap: { ja: "それはWealthParkのドメインでもある。", en: "Which is WealthPark's own domain." } },
+      { s: "cto", p: "at", o: "wealthpark", rev: true, cap: { ja: "仕事が発信になり、発信が仕事に戻ってくる。", en: "Work becomes voice; voice returns to work." } },
     ],
   },
 ];
