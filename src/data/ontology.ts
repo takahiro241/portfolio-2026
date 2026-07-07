@@ -22,6 +22,14 @@ export const QUERY_HUES: Record<QueryId, string> = {
   life: "115,192,130",
 };
 
+// ---- temporal weight: the grammar of the graph rendered as ink ----
+/** true of the present — drawn a notch larger and brighter */
+export const PRESENT_NODES = new Set<string>(["cto", "engineer", "wealthpark"]);
+/** career facts that belong to the past — their nodes/edges sit back */
+export const PAST_NODES = new Set<string>(["svp", "vpoe", "em", "rakuten", "goodpatch", "afc", "tus"]);
+/** past-tense predicates — the tense itself fades the edge */
+export const PAST_PREDICATES = new Set<string>(["heldRole", "trainedAt", "studiedAt", "taught", "wrote", "fueled"]);
+
 export interface OntologyNode {
   id: string;
   /** mono label rendered on the canvas, e.g. ":koiki.fm" */

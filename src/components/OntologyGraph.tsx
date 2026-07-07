@@ -1,7 +1,17 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { EDGES, ENTITIES, NODES, QUERY_HUES, nodeById, type QueryId } from "@/data/ontology";
+import {
+  EDGES,
+  ENTITIES,
+  NODES,
+  PAST_NODES,
+  PAST_PREDICATES,
+  PRESENT_NODES,
+  QUERY_HUES,
+  nodeById,
+  type QueryId,
+} from "@/data/ontology";
 
 interface GraphProps {
   visibleEdges: number;
@@ -330,13 +340,16 @@ export function OntologyGraph({
         const age = bornAt[idx] >= 0 ? now - bornAt[idx] : Infinity;
         const flash = reduced ? 0 : Math.max(0, 1 - age / 700);
 
+        // past-tense facts print fainter (unless the hood spotlights them)
+        const pastEdge = PAST_PREDICATES.has(e.p) || PAST_NODES.has(e.s) || PAST_NODES.has(e.o);
+        const fade = pastEdge && !inHood ? 0.55 : 1;
         const base = inHood ? 0.75 : inQuery ? 0.26 : 0.2;
         ctx!.strokeStyle =
           inHood || flash > 0
             ? `rgba(255,176,0,${Math.min(0.9, (inHood ? 0.75 : 0.15) * w + flash * 0.6)})`
             : inQuery
-              ? `rgba(255,176,0,${base * w})`
-              : `rgba(90,98,108,${base * w})`;
+              ? `rgba(255,176,0,${base * w * fade})`
+              : `rgba(90,98,108,${base * w * fade})`;
         ctx!.lineWidth = ((inHood ? 1.4 : 1) + flash * 0.8) * (w < 1 ? 0.8 : 1);
         if (w < 1) ctx!.setLineDash([3, 5]);
         ctx!.beginPath();
@@ -363,7 +376,8 @@ export function OntologyGraph({
         }
       }
 
-      const drawn: { s: SimNode; r: number; lit: boolean; dimmed: boolean }[] = [];
+      const drawn: { s: SimNode; r: number; lit: boolean; dimmed: boolean; present: boolean; fadePast: boolean }[] =
+        [];
       for (const s of sim) {
         if (!nodeVisible(s.id, visibleEdges)) continue;
         const n = nodeById[s.id];
@@ -373,7 +387,10 @@ export function OntologyGraph({
         if (hideOffQuery && activeQuery && !inQuery && !inHood && !isFocus && s.id !== "fujii") continue;
         const lit = Boolean(isFocus || inHood || (!hood && inQuery));
         const dimmed = Boolean((hood && !inHood) || (activeQuery && !inQuery && !hood));
-        const r = s.id === "fujii" ? 9 : n.cls === "hobby" ? 3 : 5.5;
+        // temporal weight: the present sits forward, the past sits back
+        const present = PRESENT_NODES.has(s.id);
+        const fadePast = PAST_NODES.has(s.id) && !isFocus;
+        const r = s.id === "fujii" ? 9 : present ? 6.5 : n.cls === "hobby" ? 3 : 5.5;
 
         // breathing halo on story nodes: "there is something to open here"
         if (HAS_STORY.has(s.id) && !dimmed) {
@@ -428,9 +445,20 @@ export function OntologyGraph({
           }
         }
 
-        const fill = s.id === "fujii" || lit ? "#ffb000" : dimmed ? "#232a33" : "#4a525c";
-        drawShape(s, r + (isFocus ? 2 : 0), fill, lit ? "#ffb000" : dimmed ? "#232a33" : "#4a525c");
-        drawn.push({ s, r, lit, dimmed });
+        const fill =
+          s.id === "fujii"
+            ? "#ffb000"
+            : lit
+              ? fadePast
+                ? "rgba(255,176,0,0.45)"
+                : "#ffb000"
+              : dimmed
+                ? "#232a33"
+                : present
+                  ? "#707c8b"
+                  : "#4a525c";
+        drawShape(s, r + (isFocus ? 2 : 0), fill, fill);
+        drawn.push({ s, r, lit, dimmed, present, fadePast });
       }
 
       // ---- label pass with collision avoidance ----
@@ -497,7 +525,17 @@ export function OntologyGraph({
         labelSlots[d.s.id] = bestSlot;
         obstacles.push(best);
         labelRects[d.s.id] = best;
-        ctx!.fillStyle = isFujii ? "#ffd67a" : d.lit ? "#e8ecf0" : d.dimmed ? "#2c333d" : "#727c87";
+        ctx!.fillStyle = isFujii
+          ? "#ffd67a"
+          : d.lit
+            ? d.fadePast
+              ? "#97a1ad"
+              : "#e8ecf0"
+            : d.dimmed
+              ? "#2c333d"
+              : d.present
+                ? "#aab4c0"
+                : "#727c87";
         ctx!.fillText(n.label, best.x, best.y + lh - 3);
       }
 
