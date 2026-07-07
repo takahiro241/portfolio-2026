@@ -18,6 +18,8 @@ export interface TokyoArticle {
   kind: L10n;
   title: string;
   area: string;
+  /** present-day status note shown above the 2016 archive content */
+  update?: { text: L10n; href?: string; hrefLabel?: string };
   meta: { p: string; v: L10n; href?: string }[];
   blocks: TokyoBlock[];
   notes?: L10n[];
@@ -30,6 +32,12 @@ export const TOKYO_ARTICLES: TokyoArticle[] = [
     kind: { ja: "カフェ", en: "Cafe" },
     title: "STREAMER COFFEE COMPANY",
     area: "Gakugei-Daigaku",
+    update: {
+      text: {
+        ja: "(2026年追記)学芸大学店は、すでに閉店しています。",
+        en: "(Update, 2026) The Gakugei-Daigaku location has since closed.",
+      },
+    },
     meta: [
       { p: ":station", v: { ja: "学芸大学(東急東横線)", en: "Gakugei-Daigaku (Tokyu Toyoko line)" } },
       { p: ":open", v: { ja: "10:00 – 20:00", en: "10:00 – 20:00" } },
@@ -107,6 +115,14 @@ export const TOKYO_ARTICLES: TokyoArticle[] = [
     kind: { ja: "バスケットボールショップ / ブランド", en: "Basketball shop / brand" },
     title: "RYZM",
     area: "Komazawa-Daigaku",
+    update: {
+      text: {
+        ja: "(2026年追記)実店舗はすでに閉店し、現在はオンラインショップとして続いています。",
+        en: "(Update, 2026) The physical shop has since closed — RYZM lives on as an online store.",
+      },
+      href: "https://ryzm.stores.jp/",
+      hrefLabel: "ryzm.stores.jp ↗",
+    },
     meta: [
       { p: ":station", v: { ja: "駒沢大学", en: "Komazawa-Daigaku" } },
       { p: ":open", v: { ja: "12:00 – 18:00(水曜定休)", en: "12:00 – 18:00 (closed Wednesdays)" } },

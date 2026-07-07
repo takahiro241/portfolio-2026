@@ -57,6 +57,20 @@ export default async function TokyoArticlePage(props: { params: Promise<{ lang: 
         <h1 className="qtitle">{article.title}</h1>
         <div className="taal-area">{article.area} · TOKYO</div>
 
+        {article.update && (
+          <div className="taal-update">
+            {article.update.text[lang]}
+            {article.update.href && (
+              <>
+                {" "}
+                <a href={article.update.href} target="_blank" rel="noopener noreferrer">
+                  {article.update.hrefLabel ?? article.update.href}
+                </a>
+              </>
+            )}
+          </div>
+        )}
+
         <div className="taal-meta">
           {article.meta.map((m) => (
             <div className="t-row" key={m.p}>
