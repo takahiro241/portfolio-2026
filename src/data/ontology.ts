@@ -607,9 +607,9 @@ export const ENTITIES: Record<string, EntityDetail> = {
       { p: ":repo", v: "taka66/tokyo-as-a-local" },
     ],
     items: [
-      { y: "—", label: { ja: "STREAMER COFFEE(学芸大学)", en: "STREAMER COFFEE (Gakugei-Daigaku)" } },
-      { y: "—", label: { ja: "日本のバスケットボールブランド・ショップ", en: "Japanese basketball brand & shop" } },
-      { y: "—", label: { ja: "オリジナルハンカチの店(駒沢大学)", en: "Original handkerchief shop (Komazawa-Daigaku)" } },
+      { y: "2016", label: { ja: "STREAMER COFFEE COMPANY(学芸大学・カフェ)", en: "STREAMER COFFEE COMPANY (Gakugei-Daigaku, cafe)" }, href: "/tokyo/streamer-coffee" },
+      { y: "2016", label: { ja: "RYZM(駒沢大学・バスケットボールショップ)", en: "RYZM (Komazawa-Daigaku, basketball shop)" }, href: "/tokyo/ryzm" },
+      { y: "2016", label: { ja: "H TOKYO(三軒茶屋・ハンカチ専門店)", en: "H TOKYO (Sangen-Jaya, handkerchief shop)" }, href: "/tokyo/h-tokyo" },
       { y: "—", label: { ja: "学芸大学〜駒沢大学エリアの散歩", en: "Walking the Gakugei-Daigaku to Komazawa stretch" } },
     ],
     rel: ["tokyo", "coffee", "basketball"],

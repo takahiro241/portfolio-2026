@@ -4,7 +4,7 @@ import type { Locale } from "@/i18n/config";
 
 interface TopNavProps {
   lang: Locale;
-  active: "graph" | "works" | "design" | "story";
+  active?: "graph" | "works" | "design" | "story";
   /** locale-less path of the current page, e.g. "/works" */
   path: string;
 }

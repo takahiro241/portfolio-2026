@@ -53,6 +53,23 @@ test.describe("?design view", () => {
   });
 });
 
+test.describe("tokyo as a local (hidden archive)", () => {
+  test("articles are reachable from the :tokyo-as-a-local panel, not from the sitemap", async ({ page, request }) => {
+    await page.goto("/en?e=tokyolocal");
+    await expect(page.locator(".entity.open .e-uri")).toHaveText(":tokyo-as-a-local");
+    await page.locator('.entity.open .i-row a', { hasText: "RYZM" }).click();
+    await expect(page).toHaveURL("/en/tokyo/ryzm");
+    await expect(page.locator(".qtitle")).toHaveText("RYZM");
+    const firstImage = page.locator(".taal-body img").first();
+    await expect.poll(() => firstImage.evaluate((el) => (el as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+
+    const sitemap = await (await request.get("/sitemap.xml")).text();
+    expect(sitemap).not.toContain("/tokyo/");
+    const html = await (await request.get("/en/tokyo/ryzm")).text();
+    expect(html).toMatch(/noindex/);
+  });
+});
+
 test.describe("navigation between views", () => {
   test.use({ locale: "ja-JP" });
 

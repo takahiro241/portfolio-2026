@@ -14,6 +14,11 @@ interface EntityPanelProps {
 export function EntityPanel({ entityId, lang, onClose, onOpen }: EntityPanelProps) {
   const node = entityId ? nodeById[entityId] : null;
   const detail = entityId ? ENTITIES[entityId] : null;
+  // internal hrefs stay in-tab (locale-prefixed); external ones open a new tab
+  const linkProps = (href: string) =>
+    href.startsWith("/")
+      ? { href: lang === "en" ? `/en${href}` : href }
+      : { href, target: "_blank", rel: "noopener noreferrer" };
 
   return (
     <aside className={`entity${node ? " open" : ""}`} aria-label="entity detail" aria-hidden={!node}>
@@ -72,16 +77,10 @@ export function EntityPanel({ entityId, lang, onClose, onOpen }: EntityPanelProp
                       <div className="i-row" key={i}>
                         <span className="iy">{item.y}</span>
                         <span className="it hum">
-                          {item.href ? (
-                            <a href={item.href} target="_blank" rel="noopener noreferrer">
-                              {item.label[lang]}
-                            </a>
-                          ) : (
-                            item.label[lang]
-                          )}
+                          {item.href ? <a {...linkProps(item.href)}>{item.label[lang]}</a> : item.label[lang]}
                         </span>
                         {item.href && (
-                          <a className="ix" href={item.href} target="_blank" rel="noopener noreferrer" aria-label="open link">
+                          <a className="ix" {...linkProps(item.href)} aria-label="open link">
                             ↗
                           </a>
                         )}
