@@ -22,6 +22,53 @@ export const QUERY_HUES: Record<QueryId, string> = {
   life: "115,192,130",
 };
 
+// ---- main stories: chains of existing edges, replayed as quiet animations ----
+export interface StoryStep {
+  s: string;
+  p: string;
+  o: string;
+  /** traverse the edge object→subject (the narrative flows against the arrow) */
+  rev?: boolean;
+}
+
+export const STORIES: { id: string; steps: StoryStep[] }[] = [
+  {
+    // あゆみ: the word processor at home leads, step by step, to LLM work
+    id: "walk",
+    steps: [
+      { s: "fujii", p: "rootedIn", o: "origins" },
+      { s: "origins", p: "fueled", o: "engineer" },
+      { s: "engineer", p: "at", o: "rakuten" },
+      { s: "em", p: "at", o: "rakuten", rev: true },
+      { s: "em", p: "involves", o: "engmgmt" },
+      { s: "cto", p: "involves", o: "engmgmt", rev: true },
+      { s: "cto", p: "involves", o: "llm" },
+    ],
+  },
+  {
+    // 描くこと: one Adobe suite, bought with intern pay, crosses three genres
+    id: "draws",
+    steps: [
+      { s: "fujii", p: "rootedIn", o: "origins" },
+      { s: "illustration", p: "rootedIn", o: "origins", rev: true },
+      { s: "illustration", p: "for", o: "basketball" },
+      { s: "illustration", p: "brands", o: "koiki" },
+      { s: "fujii", p: "coHosts", o: "koiki", rev: true },
+    ],
+  },
+  {
+    // 環: CTO work becomes seminars for the very domain the company serves
+    id: "loop",
+    steps: [
+      { s: "cto", p: "involves", o: "llm" },
+      { s: "seminars", p: "about", o: "llm", rev: true },
+      { s: "seminars", p: "for", o: "realestate" },
+      { s: "wealthpark", p: "inDomain", o: "realestate", rev: true },
+      { s: "cto", p: "at", o: "wealthpark", rev: true },
+    ],
+  },
+];
+
 // ---- temporal weight: the grammar of the graph rendered as ink ----
 /** true of the present — drawn a notch larger and brighter */
 export const PRESENT_NODES = new Set<string>(["cto", "engineer", "wealthpark"]);

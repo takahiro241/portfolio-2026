@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { existsSync } from "node:fs";
 import path from "node:path";
-import { EDGES, ENTITIES, LOG_LINES, NODES } from "./ontology";
+import { EDGES, ENTITIES, LOG_LINES, NODES, STORIES } from "./ontology";
 import { validateOntology } from "@/lib/jsonld";
 
 describe("ontology integrity", () => {
@@ -52,6 +52,17 @@ describe("ontology integrity", () => {
       for (const g of detail.gallery ?? []) {
         const file = path.join(__dirname, "../../public", g.src);
         expect(existsSync(file), `${g.src} missing`).toBe(true);
+      }
+    }
+  });
+
+  it("every story step replays a real edge", () => {
+    for (const story of STORIES) {
+      for (const st of story.steps) {
+        expect(
+          EDGES.some((e) => e.s === st.s && e.p === st.p && e.o === st.o),
+          `${story.id}: ${st.s} ${st.p} ${st.o} is not an edge`
+        ).toBe(true);
       }
     }
   });

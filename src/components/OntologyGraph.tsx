@@ -9,6 +9,7 @@ import {
   PAST_PREDICATES,
   PRESENT_NODES,
   QUERY_HUES,
+  STORIES,
   nodeById,
   type QueryId,
 } from "@/data/ontology";
@@ -119,6 +120,14 @@ export function OntologyGraph({
     // one ripple per chip touch, answered by every member node
     let pulseSeen = 0;
     let pulseAnim: { q: QueryId; t0: number } | null = null;
+
+    // main stories: every so often one chain of triples replays itself
+    const STORY_STEP_MS = 1600;
+    const STORY_HOLD_MS = 1600;
+    const STORY_GAP_MS = 35_000;
+    let storyState: { idx: number; step: number; t0: number } | null = null;
+    let storyCursor = 0;
+    let nextStoryAt = 16_000; // let the parse-log intro finish first
 
     // ---- query-first filtering: the visible subset re-lays itself out ----
     const hiddenByFilter = (id: string) => {
@@ -324,6 +333,33 @@ export function OntologyGraph({
       const focus = hover || (selectedId ? simById[selectedId] : null);
       const hood = focus ? neighborhood(focus.id) : null;
 
+      // ---- story lifecycle: rotate through the chains, yield to interaction ----
+      if (reduced || focus) {
+        if (storyState) {
+          storyState = null;
+          nextStoryAt = now + 20_000;
+        }
+      } else if (!storyState && now >= nextStoryAt && visibleEdges >= EDGES.length) {
+        storyState = { idx: storyCursor % STORIES.length, step: 0, t0: now };
+        storyCursor++;
+      }
+      if (storyState) {
+        const chain = STORIES[storyState.idx];
+        const elapsed = now - storyState.t0;
+        if (storyState.step >= chain.steps.length) {
+          if (elapsed > STORY_HOLD_MS) {
+            storyState = null;
+            nextStoryAt = now + STORY_GAP_MS;
+          }
+        } else if (elapsed > STORY_STEP_MS) {
+          storyState.step++;
+          storyState.t0 = now;
+        }
+      }
+      const storyNodes = storyState
+        ? new Set(STORIES[storyState.idx].steps.flatMap((st) => [st.s, st.o]))
+        : null;
+
       let k = 0;
       for (const e of EDGES) {
         const idx = k++;
@@ -376,6 +412,41 @@ export function OntologyGraph({
         }
       }
 
+      // ---- story layer: the chain so far as an amber trail, the current
+      // triple as a travelling spark ----
+      if (storyState) {
+        const chain = STORIES[storyState.idx];
+        const upto = Math.min(storyState.step, chain.steps.length);
+        for (let i = 0; i < upto; i++) {
+          const st = chain.steps[i];
+          const p = simById[st.s];
+          const q = simById[st.o];
+          ctx!.beginPath();
+          ctx!.moveTo(p.x, p.y);
+          ctx!.lineTo(q.x, q.y);
+          ctx!.strokeStyle = "rgba(255,176,0,0.32)";
+          ctx!.lineWidth = 1.4;
+          ctx!.stroke();
+        }
+        if (storyState.step < chain.steps.length) {
+          const st = chain.steps[storyState.step];
+          const from = simById[st.rev ? st.o : st.s];
+          const to = simById[st.rev ? st.s : st.o];
+          const k = Math.min(1, (now - storyState.t0) / (STORY_STEP_MS * 0.82));
+          const e = k * k * (3 - 2 * k); // smoothstep
+          ctx!.beginPath();
+          ctx!.moveTo(from.x, from.y);
+          ctx!.lineTo(from.x + (to.x - from.x) * e, from.y + (to.y - from.y) * e);
+          ctx!.strokeStyle = "rgba(255,176,0,0.6)";
+          ctx!.lineWidth = 1.4;
+          ctx!.stroke();
+          ctx!.beginPath();
+          ctx!.arc(from.x + (to.x - from.x) * e, from.y + (to.y - from.y) * e, 2.3, 0, Math.PI * 2);
+          ctx!.fillStyle = "rgba(255,214,122,0.95)";
+          ctx!.fill();
+        }
+      }
+
       const drawn: { s: SimNode; r: number; lit: boolean; dimmed: boolean; present: boolean; fadePast: boolean }[] =
         [];
       for (const s of sim) {
@@ -384,7 +455,16 @@ export function OntologyGraph({
         const isFocus = focus === s;
         const inHood = hood?.has(s.id);
         const inQuery = activeQuery && n.queries.includes(activeQuery);
-        if (hideOffQuery && activeQuery && !inQuery && !inHood && !isFocus && s.id !== "fujii") continue;
+        if (
+          hideOffQuery &&
+          activeQuery &&
+          !inQuery &&
+          !inHood &&
+          !isFocus &&
+          s.id !== "fujii" &&
+          !storyNodes?.has(s.id) // a playing story reveals its own cast
+        )
+          continue;
         const lit = Boolean(isFocus || inHood || (!hood && inQuery));
         const dimmed = Boolean((hood && !inHood) || (activeQuery && !inQuery && !hood));
         // temporal weight: the present sits forward, the past sits back
@@ -541,6 +621,19 @@ export function OntologyGraph({
                   ? "#5c6672"
                   : "#727c87";
         ctx!.fillText(n.label, best.x, best.y + lh - 3);
+      }
+
+      // story caption: the triple currently being spoken, bottom center
+      if (storyState) {
+        const chain = STORIES[storyState.idx];
+        const st = chain.steps[Math.min(storyState.step, chain.steps.length - 1)];
+        const cap = `${nodeById[st.s].label} :${st.p} ${nodeById[st.o].label} .`;
+        ctx!.font = "10px var(--font-plex-mono), ui-monospace, monospace";
+        const tw = ctx!.measureText(cap).width;
+        ctx!.fillStyle = "rgba(14,17,22,0.78)";
+        ctx!.fillRect(W / 2 - tw / 2 - 10, H - 30, tw + 20, 20);
+        ctx!.fillStyle = "rgba(255,214,122,0.9)";
+        ctx!.fillText(cap, W / 2 - tw / 2, H - 17);
       }
 
       // click ripple
