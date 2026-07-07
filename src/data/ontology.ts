@@ -180,7 +180,7 @@ export const EDGES: OntologyEdge[] = [
   { s: "fujii", p: "runsOn", o: "aws" },
   { s: "fujii", p: "appliesTo", o: "llm" },
   { s: "fujii", p: "speaks", o: "english" },
-  { s: "english", p: "fueled", o: "vpoe", weight: 0.7 },
+  { s: "english", p: "fueled", o: "engmgmt", weight: 0.7 },
   { s: "fujii", p: "practices", o: "budgeting" },
   { s: "fujii", p: "practices", o: "hiring" },
   { s: "fujii", p: "draws", o: "illustration" },
@@ -706,14 +706,14 @@ export const ENTITIES: Record<string, EntityDetail> = {
       en: "It started as an EM double-role at Rakuten and has continued through VPoE, SVP and CTO — while also being the theme of the podcast, the talks and the translation reviews. The one domain where doing it and talking about it never stopped overlapping.",
     },
     meta: [{ p: ":since", v: "2014(楽天でのManager兼任)" }],
-    rel: ["vpoe", "cto", "koiki", "talks", "reviews"],
+    rel: ["vpoe", "cto", "english", "koiki", "talks", "reviews"],
   },
   english: {
     type: "a :Skill · :Language",
     title: { ja: "英語", en: "English" },
     desc: {
-      ja: "学生時代は苦手教科で、話すことはほとんどできませんでした。自分の人生とリンクしておらず、勉強する意味が見出せなかったのだと思います。卒研と楽天入社で仕事と英語が徐々に紐づき、そこで仲の良い海外の友達ができたことが、英語力向上の一番の貢献者です。もともと人と話すことが好きなので、いろんな国の友達とやり取りするうちに自然と身につきました。多国籍なマネジメントの経験も重なり、英語力だけでなく多様性や文化の理解を深められたことが、国際的な組織を率いることができる理由の一つになっていると思います。",
-      en: "English was my weak subject as a student. It simply was not linked to my life, so I never saw the point of studying it. Graduation research and joining Rakuten slowly tied it to work, and making close friends from abroad became the single biggest contributor: I have always loved talking with people, so the language came naturally through those friendships. Years of managing multinational teams then deepened not just the English but an understanding of diversity and culture — one of the reasons I can lead an international organization.",
+      ja: "約10年以上に渡り、グローバルなエンジニアリング組織のマネジメントを行っています。学生時代は苦手教科で、話すことはほとんどできませんでした。自分の人生とリンクしておらず、勉強する意味が見出せなかったのだと思います。卒研と楽天入社で仕事と英語が徐々に紐づき、そこで仲の良い海外の友達ができたことが、英語力向上の一番の貢献者です。もともと人と話すことが好きなので、いろんな国の友達とやり取りするうちに自然と身につきました。多国籍なマネジメントの経験も重なり、英語力だけでなく多様性や文化の理解を深められたことが、国際的な組織を率いることができる理由の一つになっていると思います。",
+      en: "For more than a decade now, I have been managing global engineering organizations. English was my weak subject as a student. It simply was not linked to my life, so I never saw the point of studying it. Graduation research and joining Rakuten slowly tied it to work, and making close friends from abroad became the single biggest contributor: I have always loved talking with people, so the language came naturally through those friendships. Years of managing multinational teams then deepened not just the English but an understanding of diversity and culture — one of the reasons I can lead an international organization.",
     },
     meta: [
       { p: ":origin", v: "苦手教科(意味が見えなかった)" },
@@ -721,7 +721,7 @@ export const ENTITIES: Record<string, EntityDetail> = {
       { p: ":beyond", v: "多様性と文化の理解" },
       { p: ":environment", v: "メンバーの80%以上が非日本語話者(業務は英語)" },
     ],
-    rel: ["rakuten", "wealthpark", "talks", "sake"],
+    rel: ["engmgmt", "rakuten", "wealthpark", "talks", "sake"],
   },
   books: {
     type: "a :Hobby · :Influences",
