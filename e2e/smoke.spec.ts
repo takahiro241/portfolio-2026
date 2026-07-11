@@ -169,6 +169,20 @@ test.describe("seo surface", () => {
     expect((await request.get("/ogp.png")).ok()).toBe(true);
     expect((await request.get("/favicon.ico")).ok()).toBe(true);
   });
+
+  test("the header's ontology.ttl is a real turtle document", async ({ page, request }) => {
+    const res = await request.get("/ontology.ttl");
+    expect(res.ok()).toBe(true);
+    expect(res.headers()["content-type"]).toContain("text/turtle");
+    const ttl = await res.text();
+    expect(ttl).toContain("@prefix schema: <https://schema.org/>");
+    expect(ttl).toContain("rdfs:subPropertyOf schema:knowsLanguage");
+    expect(ttl).toContain("owl:inverseOf schema:creator");
+    for (const e of EDGES.slice(0, 5)) expect(ttl).toContain(`:${e.s} :${e.p} :${e.o} .`);
+
+    await page.goto("/en");
+    await expect(page.locator(".top .brand a.ttl")).toHaveAttribute("href", "/ontology.ttl");
+  });
 });
 
 test.describe("mobile", () => {

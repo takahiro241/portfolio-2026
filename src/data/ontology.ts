@@ -22,6 +22,67 @@ export const QUERY_HUES: Record<QueryId, string> = {
   life: "115,192,130",
 };
 
+// ---- vocabulary: every predicate declared, mapped to shared vocabularies where one fits ----
+/**
+ * equiv    → rdfs:subPropertyOf (this predicate is a narrower form of the shared one)
+ * inverseOf → owl:inverseOf (the shared property points the other way)
+ * Predicates with neither are this ontology's own words; the comment says what they mean.
+ */
+export const VOCAB: Record<string, { comment: string; equiv?: string; inverseOf?: string }> = {
+  holdsRole: { comment: "currently holds the role", equiv: "schema:hasOccupation" },
+  heldRole: { comment: "held the role (past)", equiv: "schema:hasOccupation" },
+  at: { comment: "organizational home of a role", equiv: "schema:worksFor" },
+  involves: { comment: "the role carries this work" },
+  trainedAt: { comment: "trained at (program, past)", equiv: "schema:alumniOf" },
+  studiedAt: { comment: "studied at (degree, past)", equiv: "schema:alumniOf" },
+  taught: { comment: "taught at (past)" },
+  inDomain: { comment: "operates in the domain", equiv: "schema:knowsAbout" },
+  about: { comment: "has as its subject", equiv: "schema:about" },
+  for: { comment: "made for the audience", equiv: "schema:audience" },
+  coHosts: { comment: "co-hosts the show" },
+  speaksAt: { comment: "speaks at", equiv: "schema:performerIn" },
+  reviewed: { comment: "reviewed (translation review)", inverseOf: "schema:reviewedBy" },
+  writes: { comment: "writes (ongoing)", inverseOf: "schema:author" },
+  wrote: { comment: "wrote (past)", inverseOf: "schema:author" },
+  made: { comment: "made the artifact", inverseOf: "schema:creator" },
+  coFounded: { comment: "co-founded", inverseOf: "schema:founder" },
+  designs: { comment: "designs in the domain", equiv: "schema:knowsAbout" },
+  codesIn: { comment: "writes code in the language", equiv: "schema:knowsAbout" },
+  buildsWith: { comment: "builds with the framework", equiv: "schema:knowsAbout" },
+  deploysTo: { comment: "deploys private apps to", equiv: "schema:knowsAbout" },
+  wields: { comment: "wields as a hands-on tool", equiv: "schema:knowsAbout" },
+  practices: { comment: "practices as part of the job", equiv: "schema:knowsAbout" },
+  usedAt: { comment: "the skill earns its keep at" },
+  with: { comment: "realized together with" },
+  speaks: { comment: "speaks the language", equiv: "schema:knowsLanguage" },
+  fueled: { comment: "quietly powered" },
+  rootedIn: { comment: "grew out of" },
+  livesIn: { comment: "lives in", equiv: "schema:homeLocation" },
+  travels: { comment: "travels" },
+  namedAfter: { comment: "carries the name of" },
+  brands: { comment: "gives its visual identity to" },
+  draws: { comment: "draws" },
+  reads: { comment: "reads" },
+  plays: { comment: "plays" },
+  playedAt: { comment: "played on the company team at (past)" },
+  wears: { comment: "wears" },
+  cooks: { comment: "cooks" },
+  drinks: { comment: "drinks" },
+  eats: { comment: "eats" },
+  pairsWith: { comment: "goes well with" },
+};
+
+/** class mappings into shared vocabularies */
+export const CLASS_EQUIV: Record<string, string[]> = {
+  person: ["foaf:Person", "schema:Person"],
+  role: ["schema:Occupation"],
+  org: ["schema:Organization"],
+  artifact: ["schema:CreativeWork"],
+  skill: [],
+  domain: [],
+  hobby: [],
+};
+
 // ---- main stories: chains of existing edges, replayed as quiet animations ----
 export interface StoryStep {
   s: string;

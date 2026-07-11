@@ -15,7 +15,11 @@ export function TopNav({ lang, active, path }: TopNavProps) {
   return (
     <div className="top">
       <span className="brand">
-        takahirofujii.dev — <b>ontology.ttl</b>
+        {/* the file the header has always claimed to be — now actually served */}
+        takahirofujii.dev —{" "}
+        <a className="ttl" href="/ontology.ttl">
+          <b>ontology.ttl</b>
+        </a>
       </span>
       <nav>
         <Link href={prefix || "/"} className={active === "graph" ? "on" : ""}>:fujii</Link>

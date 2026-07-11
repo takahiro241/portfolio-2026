@@ -758,6 +758,14 @@ body {
   color: var(--amber);
   font-weight: 400;
 }
+.top .brand a.ttl {
+  text-decoration: none;
+}
+.top .brand a.ttl:hover b,
+.top .brand a.ttl:focus-visible b {
+  text-decoration: underline;
+  outline: none;
+}
 .top nav {
   display: flex;
   gap: 6px;
