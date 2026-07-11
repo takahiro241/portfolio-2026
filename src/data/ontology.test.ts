@@ -9,10 +9,11 @@ describe("ontology integrity", () => {
     expect(validateOntology()).toEqual([]);
   });
 
-  it("keeps the graph tier curated (30-46 nodes)", () => {
+  it("keeps the graph tier curated (30-47 nodes)", () => {
     expect(NODES.length).toBeGreaterThanOrEqual(30);
-    // raised 45 → 46 for :vercel (2026-07: private apps deploy there — including this site)
-    expect(NODES.length).toBeLessThanOrEqual(46);
+    // raised 45 → 46 for :vercel, → 47 for :japanese (the site is bilingual;
+    // :speaks :english alone was the loudest gap in the graph)
+    expect(NODES.length).toBeLessThanOrEqual(47);
   });
 
   it("every node is reachable from :fujii", () => {

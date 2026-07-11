@@ -222,6 +222,7 @@ export const NODES: OntologyNode[] = [
   { id: "vercel", label: ":vercel", cls: "skill", queries: ["craft"], seed: [0.06, 0.58] },
   { id: "figma", label: ":figma", cls: "skill", queries: ["craft"], seed: [0.3, 0.78] },
   { id: "english", label: ":english", cls: "skill", queries: ["career", "voice"], seed: [0.6, 0.52] },
+  { id: "japanese", label: ":japanese", cls: "skill", queries: ["career", "voice"], seed: [0.52, 0.58] },
   { id: "budgeting", label: ":budgeting", cls: "skill", queries: ["career"], seed: [0.56, 0.64] },
   { id: "hiring", label: ":hiring", cls: "skill", queries: ["career"], seed: [0.66, 0.72] },
   { id: "illustration", label: ":illustration", cls: "artifact", queries: ["craft", "life"], seed: [0.34, 0.88] },
@@ -304,6 +305,7 @@ export const EDGES: OntologyEdge[] = [
   { s: "fujii", p: "wields", o: "llm" },
   { s: "llm", p: "with", o: "typescript" },
   { s: "llm", p: "with", o: "python" },
+  { s: "fujii", p: "speaks", o: "japanese" },
   { s: "fujii", p: "speaks", o: "english" },
   { s: "english", p: "fueled", o: "engmgmt", weight: 0.7 },
   { s: "fujii", p: "practices", o: "budgeting" },
@@ -846,7 +848,7 @@ export const ENTITIES: Record<string, EntityDetail> = {
       { p: ":beyond", v: "多様性と文化の理解" },
       { p: ":environment", v: "メンバーの80%以上が非日本語話者(業務は英語)" },
     ],
-    rel: ["engmgmt", "rakuten", "wealthpark", "talks", "sake"],
+    rel: ["japanese", "engmgmt", "rakuten", "wealthpark", "talks", "sake"],
   },
   books: {
     type: "a :Hobby · :Influences",
@@ -903,6 +905,10 @@ export const ENTITIES: Record<string, EntityDetail> = {
 
 /** short hover sentences for nodes without a full panel */
 export const SENTENCES: Record<string, L10n> = {
+  japanese: {
+    ja: "母語の<b>日本語</b>。このサイトの既定言語でもあります。",
+    en: "Native <b>Japanese</b> — also this site's default language.",
+  },
   vercel: {
     ja: "プライベートのアプリは<b>Vercel</b>にデプロイ。いま見ているこのサイトも、Vercelの上で動いています。",
     en: "Private apps deploy to <b>Vercel</b> — including the site you are reading right now.",
@@ -1035,7 +1041,7 @@ export const LOG_LINES: LogLine[] = [
   { s: ":fujii", p: ":livesIn", o: ":tokyo", ghosts: [":native"] },
   { s: ":fujii", p: ":coFounded", o: ":koiki-team", ghosts: [":2013-2017"] },
   { s: ":fujii", p: ":codesIn", o: ":typescript, :go, :python, :java" },
-  { s: ":fujii", p: ":speaks", o: ":english", ghosts: [":海外の友達"] },
+  { s: ":fujii", p: ":speaks", o: ":japanese, :english", ghosts: [":海外の友達"] },
   { s: "# graph committed", comment: true },
 ];
 
